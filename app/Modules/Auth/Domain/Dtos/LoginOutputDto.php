@@ -2,12 +2,12 @@
 
 namespace App\Modules\Auth\Domain\Dtos;
 
-class LoginOutputDto
+readonly class LoginOutputDto
 {
     public function __construct(
-        public readonly string $token,
-        public readonly string $tokenType = 'Bearer',
-        public readonly int $expiresIn = 3600,
+        public string $token,
+        public string $tokenType = 'Bearer',
+        public int $expiresIn = 3600,
     )
     {}
 }

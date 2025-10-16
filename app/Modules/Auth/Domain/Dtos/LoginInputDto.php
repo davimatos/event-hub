@@ -2,10 +2,10 @@
 
 namespace App\Modules\Auth\Domain\Dtos;
 
-class LoginInputDto
+readonly class LoginInputDto
 {
     public function __construct(
-        public readonly string $email,
-        public readonly string $password,
+        public string $email,
+        public string $password,
     ) {}
 }
