@@ -3,13 +3,13 @@
 namespace App\Modules\User\Domain\UseCases;
 
 use App\Core\Adapters\Auth\Contracts\AuthenticatorAdapterInterface;
+use App\Core\Exceptions\UnauthorizedException;
 use App\Modules\User\Domain\Dtos\CreateUserInputDto;
 use App\Modules\User\Domain\Dtos\UserOutputDto;
 use App\Modules\User\Domain\Entities\User;
 use App\Modules\User\Domain\Enums\UserType;
 use App\Modules\User\Domain\Exceptions\EmailAlreadyExistsException;
 use App\Modules\User\Domain\Exceptions\PasswordConfirmationMismatchException;
-use App\Modules\User\Domain\Exceptions\UnauthorizedUserException;
 use App\Modules\User\Domain\Repositories\UserRepositoryInterface;
 use App\Modules\User\Domain\ValueObjects\Email;
 use App\Modules\User\Domain\ValueObjects\Password;
@@ -37,7 +37,7 @@ class CreateUserUseCase
         if (null === $authUser) {
             $typeToCreate = UserType::PARTICIPANT;
         } else if ($typeToCreate === UserType::ORGANIZER && false === $authUser->canCreateOrganizerUser()) {
-            throw new UnauthorizedUserException();
+            throw new UnauthorizedException();
         }
 
         $user = new User(
