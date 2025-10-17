@@ -10,12 +10,13 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email'    => ['string', 'required'],
+            'email' => ['string', 'required'],
             'password' => ['string', 'required'],
         ];
     }
 
-    public function toDto(): LoginInputDto {
+    public function toDto(): LoginInputDto
+    {
         return new LoginInputDto(
             $this->input('email'),
             $this->input('password')

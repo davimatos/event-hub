@@ -16,7 +16,7 @@ use App\Modules\User\Domain\ValueObjects\Password;
 
 class CreateUserUseCase
 {
-    function __construct(
+    public function __construct(
         private AuthenticatorAdapterInterface $authenticator,
         private UserRepositoryInterface $userRepository
     ) {}
@@ -24,20 +24,20 @@ class CreateUserUseCase
     public function execute(CreateUserInputDto $createUserInputDto): UserOutputDto
     {
         if ($createUserInputDto->password !== $createUserInputDto->password_confirmation) {
-            throw new PasswordConfirmationMismatchException();
+            throw new PasswordConfirmationMismatchException;
         }
 
-        if (null !== $this->userRepository->getByEmail($createUserInputDto->email)) {
-            throw new EmailAlreadyExistsException();
+        if ($this->userRepository->getByEmail($createUserInputDto->email) !== null) {
+            throw new EmailAlreadyExistsException;
         }
 
         $authUser = $this->authenticator->getAuthUser();
         $typeToCreate = $createUserInputDto->type ? UserType::from($createUserInputDto->type) : UserType::PARTICIPANT;
 
-        if (null === $authUser) {
+        if ($authUser === null) {
             $typeToCreate = UserType::PARTICIPANT;
-        } else if ($typeToCreate === UserType::ORGANIZER && false === $authUser->canCreateOrganizerUser()) {
-            throw new UnauthorizedException();
+        } elseif ($typeToCreate === UserType::ORGANIZER && $authUser->canCreateOrganizerUser() === false) {
+            throw new UnauthorizedException;
         }
 
         $user = new User(

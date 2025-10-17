@@ -7,6 +7,7 @@ use App\Core\Exceptions\ValidationException;
 class EmailAlreadyExistsException extends ValidationException
 {
     protected $message = 'O email informado já está sendo usado.';
+
     protected int $statusCode = 409;
 
     public function __construct()

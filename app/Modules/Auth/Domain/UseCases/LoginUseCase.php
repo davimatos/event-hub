@@ -12,17 +12,17 @@ use App\Modules\User\Domain\Repositories\UserRepositoryInterface;
 readonly class LoginUseCase
 {
     public function __construct(
-        private AuthenticatorAdapterInterface   $authenticator,
-        private UserRepositoryInterface         $userRepository,
-        private Params                          $params
+        private AuthenticatorAdapterInterface $authenticator,
+        private UserRepositoryInterface $userRepository,
+        private Params $params
     ) {}
 
     public function execute(LoginInputDto $loginInputDto): LoginOutputDto
     {
         $authUser = $this->userRepository->getByEmail($loginInputDto->email);
 
-        if (null === $authUser) {
-            throw new InvalidCredentialsException();
+        if ($authUser === null) {
+            throw new InvalidCredentialsException;
         }
 
         $isValidCredentials = $this->authenticator->checkCredentials(
@@ -30,8 +30,8 @@ readonly class LoginUseCase
             $loginInputDto->password
         );
 
-        if (false === $isValidCredentials) {
-            throw new InvalidCredentialsException();
+        if ($isValidCredentials === false) {
+            throw new InvalidCredentialsException;
         }
 
         $authToken = $this->authenticator->generateToken();

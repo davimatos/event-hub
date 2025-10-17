@@ -19,12 +19,13 @@ class CreateEventUseCase
         private EventRepositoryInterface $eventRepository
     ) {}
 
-    public function execute(CreateEventInputDto $createEventInputDto): EventOutputDto {
+    public function execute(CreateEventInputDto $createEventInputDto): EventOutputDto
+    {
 
         $authUser = $this->authenticator->getAuthUser();
 
-        if (false === $authUser->isOrganizer()) {
-            throw new UnauthorizedException();
+        if ($authUser->isOrganizer() === false) {
+            throw new UnauthorizedException;
         }
 
         $event = new Event(

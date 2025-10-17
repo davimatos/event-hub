@@ -8,6 +8,5 @@ readonly class LoginOutputDto
         public string $token,
         public string $tokenType = 'Bearer',
         public int $expiresIn = 3600,
-    )
-    {}
+    ) {}
 }

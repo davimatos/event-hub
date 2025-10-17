@@ -3,17 +3,16 @@
 namespace App\Modules\Event\Infra\Repositories;
 
 use App\Modules\Event\Domain\Entities\Event;
-use App\Modules\User\Domain\Entities\User;
 use App\Modules\Event\Domain\Repositories\EventRepositoryInterface;
 use App\Modules\Event\Domain\ValueObjects\Date;
 use App\Modules\Event\Domain\ValueObjects\Money;
 use App\Modules\Event\Infra\Models\EventModel;
+use App\Modules\User\Domain\Entities\User;
 use App\Modules\User\Domain\Enums\UserType;
 use App\Modules\User\Domain\ValueObjects\Email;
 
 class EventEloquentRepository implements EventRepositoryInterface
 {
-
     public function create(Event $event): Event
     {
         $eventModel = new EventModel([

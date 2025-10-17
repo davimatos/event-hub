@@ -10,20 +10,19 @@ use Illuminate\Support\Facades\Auth;
 
 class SanctrumAuthenticatorAdapter implements AuthenticatorAdapterInterface
 {
-
     public function checkCredentials(string $email, string $password): bool
     {
         return Auth::guard('web')->attempt([
             'email' => $email,
-            'password' => $password
+            'password' => $password,
         ]);
     }
 
-    public function getAuthUser() : ?User
+    public function getAuthUser(): ?User
     {
         $authUserModel = Auth::user();
 
-        if (null === $authUserModel) {
+        if ($authUserModel === null) {
             return null;
         }
 

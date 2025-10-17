@@ -18,7 +18,8 @@ class CreateEventRequest extends FormRequest
         ];
     }
 
-    public function toDto(): CreateEventInputDto {
+    public function toDto(): CreateEventInputDto
+    {
         return new CreateEventInputDto(
             $this->input('title'),
             $this->input('description'),

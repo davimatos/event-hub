@@ -10,17 +10,16 @@ use App\Modules\User\Domain\Entities\User;
 class Event
 {
     public function __construct(
-        public ?string $id = null,
-        public User  $organizer,
-        public string  $title,
-        public string  $description,
-        public Date    $date,
-        public Money   $ticketPrice,
-        public int     $capacity,
+        public ?string $id,
+        public User $organizer,
+        public string $title,
+        public string $description,
+        public Date $date,
+        public Money $ticketPrice,
+        public int $capacity,
         public ?string $createdAt = null,
         public ?string $updatedAt = null,
-    )
-    {
+    ) {
         $this->validate();
     }
 

@@ -20,7 +20,5 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(EventRepositoryInterface::class, EventEloquentRepository::class);
     }
 
-    public function boot(): void
-    {
-    }
+    public function boot(): void {}
 }

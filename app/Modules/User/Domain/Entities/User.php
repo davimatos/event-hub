@@ -9,7 +9,7 @@ use App\Modules\User\Domain\ValueObjects\Password;
 class User
 {
     public function __construct(
-        public ?string $id = null,
+        public ?string $id,
         public string $name,
         public Email $email,
         public UserType $type,
@@ -18,11 +18,13 @@ class User
         public ?string $updatedAt = null,
     ) {}
 
-    public function isOrganizer(): bool {
+    public function isOrganizer(): bool
+    {
         return $this->type === UserType::ORGANIZER;
     }
 
-    public function canCreateOrganizerUser(): bool {
+    public function canCreateOrganizerUser(): bool
+    {
         return $this->isOrganizer();
     }
 }

@@ -6,7 +6,7 @@ use App\Modules\User\Domain\Entities\User;
 
 readonly class UserOutputDto
 {
-    function __construct(
+    public function __construct(
         public string $id,
         public string $name,
         public string $email,
@@ -15,7 +15,8 @@ readonly class UserOutputDto
         public string $updated_at,
     ) {}
 
-    public static function fromEntity(User $user) : self {
+    public static function fromEntity(User $user): self
+    {
         return new self(
             id: $user->id,
             name: $user->name,

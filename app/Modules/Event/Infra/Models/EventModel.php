@@ -30,7 +30,7 @@ class EventModel extends Model
             'capacity' => 'integer',
         ];
     }
-    
+
     public function organizer(): BelongsTo
     {
         return $this->belongsTo(UserModel::class, 'organizer_id');

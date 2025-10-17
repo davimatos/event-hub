@@ -8,7 +8,6 @@ use Illuminate\Http\JsonResponse;
 
 class ValidationException extends Exception implements ShouldntReport
 {
-
     const DEFAULT_STATUS_CODE = 422;
 
     public array $errors;

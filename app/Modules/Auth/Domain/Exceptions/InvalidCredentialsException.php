@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 class InvalidCredentialsException extends Exception implements ShouldntReport
 {
     protected $message = 'Credenciais inválidas.';
+
     protected int $statusCode = 403;
 
     public function __construct()

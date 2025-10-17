@@ -7,6 +7,7 @@ use App\Core\Exceptions\ValidationException;
 class PasswordConfirmationMismatchException extends ValidationException
 {
     protected $message = 'A senha e a confirmação de senha não são iguais.';
+
     protected int $statusCode = 422;
 
     public function __construct()

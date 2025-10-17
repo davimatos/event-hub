@@ -8,7 +8,7 @@ use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
-    function __construct(
+    public function __construct(
         private CreateUserUseCase $createUserUseCase
     ) {}
 

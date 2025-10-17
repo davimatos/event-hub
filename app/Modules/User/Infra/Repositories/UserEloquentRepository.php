@@ -14,7 +14,7 @@ class UserEloquentRepository implements UserRepositoryInterface
     {
         $userModel = UserModel::where('email', $email)->first();
 
-        if (null === $userModel) {
+        if ($userModel === null) {
             return null;
         }
 

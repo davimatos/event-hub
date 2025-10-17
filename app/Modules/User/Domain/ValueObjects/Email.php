@@ -4,15 +4,15 @@ namespace App\Modules\User\Domain\ValueObjects;
 
 use App\Core\Exceptions\ValidationException;
 
-readonly final class Email
+final readonly class Email
 {
     private string $address;
 
-    function __construct(string $address)
+    public function __construct(string $address)
     {
         $address = trim(strtolower($address));
 
-        if (false === filter_var($address, FILTER_VALIDATE_EMAIL)) {
+        if (filter_var($address, FILTER_VALIDATE_EMAIL) === false) {
             throw new ValidationException(['email' => 'Endereço de email inválido.']);
         }
 

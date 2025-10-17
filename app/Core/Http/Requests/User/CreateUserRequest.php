@@ -18,7 +18,8 @@ class CreateUserRequest extends FormRequest
         ];
     }
 
-    public function toDto(): CreateUserInputDto {
+    public function toDto(): CreateUserInputDto
+    {
         return new CreateUserInputDto(
             $this->input('name'),
             $this->input('email'),

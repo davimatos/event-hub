@@ -8,7 +8,7 @@ use Illuminate\Http\JsonResponse;
 
 class EventController extends Controller
 {
-    function __construct(
+    public function __construct(
         private readonly CreateEventUseCase $createEventUseCase
     ) {}
 

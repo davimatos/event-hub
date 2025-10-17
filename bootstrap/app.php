@@ -1,6 +1,5 @@
 <?php
 
-use App\Modules\Auth\Domain\Exceptions\InvalidCredentialsException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -29,5 +28,4 @@ return Application::configure(basePath: dirname(__DIR__))
             'user.organizer' => \App\Core\Http\Middleware\OrganizerUserMiddleware::class,
         ]);
     })
-    ->withExceptions(function (Exceptions $exceptions): void {
-    })->create();
+    ->withExceptions(function (Exceptions $exceptions): void {})->create();

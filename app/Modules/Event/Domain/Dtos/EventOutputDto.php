@@ -19,7 +19,8 @@ readonly class EventOutputDto
         public string $updated_at,
     ) {}
 
-    public static function fromEntity(Event $event) : self {
+    public static function fromEntity(Event $event): self
+    {
         return new self(
             id: $event->id,
             organizer: UserOutputDto::fromEntity($event->organizer),
