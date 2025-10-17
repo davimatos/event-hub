@@ -50,13 +50,6 @@ class CreateUserUseCase
 
         $newUser = $this->userRepository->create($user);
 
-        return new UserOutputDto(
-            $newUser->id,
-            $newUser->name,
-            $newUser->email,
-            $newUser->type->value,
-            $newUser->created_at,
-            $newUser->updated_at
-        );
+        return UserOutputDto::fromEntity($newUser);
     }
 }

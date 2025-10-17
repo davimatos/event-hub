@@ -40,16 +40,6 @@ class CreateEventUseCase
 
         $newEvent = $this->eventRepository->create($event);
 
-        return new EventOutputDto(
-            id: $newEvent->id,
-            organizer: UserOutputDto::fromEntity($newEvent->organizer),
-            title: $newEvent->title,
-            description: $newEvent->description,
-            date: $newEvent->date,
-            ticket_price: $newEvent->ticketPrice->value(),
-            capacity: $newEvent->capacity,
-            created_at: $newEvent->createdAt,
-            updated_at: $newEvent->updatedAt,
-        );
+        return EventOutputDto::fromEntity($newEvent);
     }
 }
