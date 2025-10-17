@@ -10,7 +10,6 @@ use App\Modules\Event\Domain\Entities\Event;
 use App\Modules\Event\Domain\Repositories\EventRepositoryInterface;
 use App\Modules\Event\Domain\ValueObjects\Date;
 use App\Modules\Event\Domain\ValueObjects\Money;
-use App\Modules\User\Domain\Dtos\UserOutputDto;
 
 class CreateEventUseCase
 {

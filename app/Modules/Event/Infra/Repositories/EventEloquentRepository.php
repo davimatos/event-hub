@@ -45,4 +45,32 @@ class EventEloquentRepository implements EventRepositoryInterface
             $eventModel->updated_at
         );
     }
+
+    public function getById(string $id): ?Event
+    {
+        $eventModel = EventModel::find($id);
+
+        if ($eventModel === null) {
+            return null;
+        }
+
+        return new Event(
+            $eventModel->id,
+            new User(
+                id: $eventModel->organizer->id,
+                name: $eventModel->organizer->name,
+                email: new Email($eventModel->organizer->email),
+                type: UserType::from($eventModel->organizer->type),
+                createdAt: $eventModel->organizer->created_at,
+                updatedAt: $eventModel->organizer->updated_at
+            ),
+            $eventModel->title,
+            $eventModel->description,
+            new Date($eventModel->date->format('Y-m-d')),
+            new Money($eventModel->ticket_price),
+            $eventModel->capacity,
+            $eventModel->created_at,
+            $eventModel->updated_at
+        );
+    }
 }
