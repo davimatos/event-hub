@@ -24,6 +24,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->group('api', [
             'throttle:api',
         ]);
+
+        $middleware->alias([
+            'user.organizer' => \App\Core\Http\Middleware\OrganizerUserMiddleware::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
     })->create();
