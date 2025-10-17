@@ -4,9 +4,9 @@ namespace App\Modules\User\Domain\ValueObjects;
 
 use App\Core\Exceptions\ValidationException;
 
-final class Email
+readonly final class Email
 {
-    private $address;
+    private string $address;
 
     function __construct(string $address)
     {
