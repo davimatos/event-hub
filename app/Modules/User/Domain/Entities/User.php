@@ -17,4 +17,12 @@ class User
         public ?string $created_at = null,
         public ?string $updated_at = null,
     ) {}
+
+    public function isOrganizer(): bool {
+        return $this->type === UserType::ORGANIZER;
+    }
+
+    public function canCreateOrganizerUser(): bool {
+        return $this->isOrganizer();
+    }
 }
