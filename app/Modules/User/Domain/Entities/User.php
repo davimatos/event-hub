@@ -14,8 +14,8 @@ class User
         public Email $email,
         public UserType $type,
         public ?Password $password = null,
-        public ?string $created_at = null,
-        public ?string $updated_at = null,
+        public ?string $createdAt = null,
+        public ?string $updatedAt = null,
     ) {}
 
     public function isOrganizer(): bool {

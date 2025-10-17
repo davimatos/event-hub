@@ -4,6 +4,7 @@ namespace App\Core\Http\Controllers;
 
 use App\Core\Http\Requests\User\CreateUserRequest;
 use App\Modules\User\Domain\UseCases\CreateUserUseCase;
+use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
@@ -11,7 +12,7 @@ class UserController extends Controller
         private CreateUserUseCase $createUserUseCase
     ) {}
 
-    public function create(CreateUserRequest $request)
+    public function create(CreateUserRequest $request): JsonResponse
     {
         $result = $this->createUserUseCase->execute($request->toDto());
 

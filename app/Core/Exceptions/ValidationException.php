@@ -6,7 +6,8 @@ use Exception;
 use Illuminate\Contracts\Debug\ShouldntReport;
 use Illuminate\Http\JsonResponse;
 
-class ValidationException extends Exception implements ShouldntReport {
+class ValidationException extends Exception implements ShouldntReport
+{
 
     const DEFAULT_STATUS_CODE = 422;
 
