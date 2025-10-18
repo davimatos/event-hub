@@ -10,7 +10,7 @@ readonly class UserOutputDto
         public string $id,
         public string $name,
         public string $email,
-        public int $type,
+        public string $type,
         public string $created_at,
         public string $updated_at,
     ) {}

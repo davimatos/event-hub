@@ -32,7 +32,6 @@ class UserModel extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'type' => 'integer',
         ];
     }
 

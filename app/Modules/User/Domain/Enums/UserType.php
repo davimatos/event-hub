@@ -2,8 +2,8 @@
 
 namespace App\Modules\User\Domain\Enums;
 
-enum UserType: int
+enum UserType: string
 {
-    case ORGANIZER = 1;
-    case PARTICIPANT = 2;
+    case ORGANIZER = 'organizer';
+    case PARTICIPANT = 'participant';
 }

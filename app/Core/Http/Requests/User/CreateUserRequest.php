@@ -12,7 +12,7 @@ class CreateUserRequest extends FormRequest
         return [
             'name' => ['string', 'required'],
             'email' => ['string', 'required'],
-            'type' => ['integer', 'sometimes', 'in:1,2'],
+            'type' => ['string', 'sometimes'],
             'password' => ['string', 'required'],
             'password_confirmation' => ['string', 'required'],
         ];

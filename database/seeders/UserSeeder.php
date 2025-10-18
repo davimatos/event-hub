@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
         UserModel::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
-            'type' => UserType::ORGANIZER,
+            'type' => UserType::ORGANIZER->value,
         ]);
     }
 }
