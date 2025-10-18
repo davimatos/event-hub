@@ -14,6 +14,7 @@ class TicketMapper
             $ticketModel->order_id,
             $ticketModel->event_id,
             $ticketModel->participant_id,
+            $ticketModel->used_at,
             $ticketModel->created_at,
             $ticketModel->updated_at
         );
