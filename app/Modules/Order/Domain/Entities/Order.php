@@ -3,8 +3,10 @@
 namespace App\Modules\Order\Domain\Entities;
 
 use App\Core\Exceptions\ValidationException;
+use App\Core\Helpers\Params;
 use App\Modules\Event\Domain\Entities\Event;
 use App\Modules\Event\Domain\ValueObjects\Money;
+use App\Modules\Order\Domain\Exceptions\TicketPerOrderLimitExceededException;
 use App\Modules\User\Domain\Entities\User;
 
 class Order
@@ -33,6 +35,10 @@ class Order
 
         if (filter_var($this->quantity, FILTER_VALIDATE_INT) === false) {
             throw new ValidationException(['quantity' => 'A quantidade deve ser um número inteiro.']);
+        }
+
+        if ($this->quantity > Params::maxTicketsPerOrder()) {
+            throw new TicketPerOrderLimitExceededException();
         }
 
         if ($this->discount > $this->totalAmount) {

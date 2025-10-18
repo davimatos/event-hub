@@ -13,4 +13,14 @@ class Params
     {
         return config('params.auth_token_lifetime_minutes');
     }
+
+    public static function maxTicketsPerOrder(): int
+    {
+        return config('params.max_tickets_per_order');
+    }
+
+    public static function maxTicketsPerEvent(): int
+    {
+        return config('params.max_tickets_per_event');
+    }
 }
