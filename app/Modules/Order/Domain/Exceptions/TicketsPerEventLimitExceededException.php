@@ -10,7 +10,7 @@ class TicketsPerEventLimitExceededException extends ValidationException
 
     protected int $statusCode = 403;
 
-    public function __construct(string $message = null)
+    public function __construct(?string $message = null)
     {
         parent::__construct(errors: ['quantity' => $message ?? $this->message], code: $this->statusCode);
     }

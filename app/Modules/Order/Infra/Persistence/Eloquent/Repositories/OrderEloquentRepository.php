@@ -35,9 +35,9 @@ class OrderEloquentRepository implements OrderRepositoryInterface
     public function getCountSoldTicketsByParticipant(string $eventId, string $participantId): int
     {
         $soldTicketsCount = OrderModel::where('event_id', $eventId)
-                                        ->where('participant_id', $participantId)
-                                        ->where('status', '!=', 'canceled')
-                                        ->sum('quantity');
+            ->where('participant_id', $participantId)
+            ->where('status', '!=', 'canceled')
+            ->sum('quantity');
 
         return (int) $soldTicketsCount;
     }
