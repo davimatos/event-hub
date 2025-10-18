@@ -4,8 +4,7 @@ namespace App\Core\Adapters\Auth;
 
 use App\Core\Adapters\Auth\Contracts\AuthenticatorAdapterInterface;
 use App\Modules\User\Domain\Entities\User;
-use App\Modules\User\Domain\Enums\UserType;
-use App\Modules\User\Domain\ValueObjects\Email;
+use App\Modules\User\Infra\Persistence\Eloquent\Mappers\UserMapper;
 use Illuminate\Support\Facades\Auth;
 
 class SanctrumAuthenticatorAdapter implements AuthenticatorAdapterInterface
@@ -26,15 +25,7 @@ class SanctrumAuthenticatorAdapter implements AuthenticatorAdapterInterface
             return null;
         }
 
-        return new User(
-            $authUserModel->id,
-            $authUserModel->name,
-            new Email($authUserModel->email),
-            UserType::from($authUserModel->type),
-            null,
-            $authUserModel->created_at,
-            $authUserModel->updated_at
-        );
+        return UserMapper::toEntity($authUserModel);
     }
 
     public function generateToken(): string

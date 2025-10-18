@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Modules\Event\Infra\Persistence\Eloquent\Repositories;
+
+use App\Modules\Event\Domain\Entities\Event;
+use App\Modules\Event\Domain\Repositories\EventRepositoryInterface;
+use App\Modules\Event\Infra\Persistence\Eloquent\Mappers\EventMapper;
+use App\Modules\Event\Infra\Persistence\Eloquent\Models\EventModel;
+
+class EventEloquentRepository implements EventRepositoryInterface
+{
+    public function create(Event $event): Event
+    {
+        $eventModel = new EventModel(EventMapper::toPersistence($event));
+
+        $eventModel->save();
+
+        return EventMapper::toEntity($eventModel);
+    }
+
+    public function getById(string $id): ?Event
+    {
+        $eventModel = EventModel::find($id);
+
+        if ($eventModel === null) {
+            return null;
+        }
+
+        return EventMapper::toEntity($eventModel);
+    }
+}

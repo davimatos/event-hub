@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Modules\User\Domain\Enums\UserType;
-use App\Modules\User\Infra\Models\UserModel;
+use App\Modules\User\Infra\Persistence\Eloquent\Models\UserModel;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder

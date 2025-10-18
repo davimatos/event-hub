@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\User\Infra\Models;
+namespace App\Modules\User\Infra\Persistence\Eloquent\Models;
 
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
