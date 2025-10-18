@@ -3,6 +3,7 @@
 namespace App\Modules\Order\Infra\Persistence\Eloquent\Repositories;
 
 use App\Modules\Order\Domain\Entities\Order;
+use App\Modules\Order\Domain\Enums\OrderStatus;
 use App\Modules\Order\Domain\Repositories\OrderRepositoryInterface;
 use App\Modules\Order\Infra\Persistence\Eloquent\Mappers\OrderMapper;
 use App\Modules\Order\Infra\Persistence\Eloquent\Models\OrderModel;
@@ -36,7 +37,7 @@ class OrderEloquentRepository implements OrderRepositoryInterface
     {
         $soldTicketsCount = OrderModel::where('event_id', $eventId)
             ->where('participant_id', $participantId)
-            ->where('status', '!=', 'canceled')
+            ->where('status', '!=', OrderStatus::CANCELED->value)
             ->sum('quantity');
 
         return (int) $soldTicketsCount;

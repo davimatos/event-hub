@@ -6,6 +6,7 @@ use App\Core\Exceptions\ValidationException;
 use App\Core\Helpers\Params;
 use App\Modules\Event\Domain\Entities\Event;
 use App\Modules\Event\Domain\ValueObjects\Money;
+use App\Modules\Order\Domain\Enums\OrderStatus;
 use App\Modules\Order\Domain\Exceptions\TicketsPerOrderLimitExceededException;
 use App\Modules\User\Domain\Entities\User;
 
@@ -19,7 +20,7 @@ class Order
         public Money $ticketPrice,
         public Money $discount,
         public Money $totalAmount,
-        public string $status,
+        public OrderStatus $status,
         public ?array $tickets = [],
         public ?string $createdAt = null,
         public ?string $updatedAt = null,

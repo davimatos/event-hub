@@ -5,6 +5,7 @@ namespace App\Modules\Order\Infra\Persistence\Eloquent\Mappers;
 use App\Modules\Event\Domain\ValueObjects\Money;
 use App\Modules\Event\Infra\Persistence\Eloquent\Mappers\EventMapper;
 use App\Modules\Order\Domain\Entities\Order;
+use App\Modules\Order\Domain\Enums\OrderStatus;
 use App\Modules\Order\Infra\Persistence\Eloquent\Models\OrderModel;
 use App\Modules\Ticket\Infra\Persistence\Eloquent\Mappers\TicketMapper;
 use App\Modules\User\Infra\Persistence\Eloquent\Mappers\UserMapper;
@@ -27,7 +28,7 @@ class OrderMapper
             new Money($orderModel->ticket_price),
             new Money($orderModel->discount),
             new Money($orderModel->total_amount),
-            $orderModel->status,
+            OrderStatus::from($orderModel->status),
             $tickets,
             $orderModel->created_at,
             $orderModel->updated_at
@@ -43,7 +44,7 @@ class OrderMapper
             'ticket_price' => $order->ticketPrice->value(),
             'discount' => $order->discount->value(),
             'total_amount' => $order->totalAmount->value(),
-            'status' => $order->status,
+            'status' => $order->status->value,
         ];
     }
 }

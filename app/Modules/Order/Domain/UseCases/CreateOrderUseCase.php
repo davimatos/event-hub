@@ -10,6 +10,7 @@ use App\Modules\Event\Domain\ValueObjects\Money;
 use App\Modules\Order\Domain\Dtos\CreateOrderInputDto;
 use App\Modules\Order\Domain\Dtos\OrderOutputDto;
 use App\Modules\Order\Domain\Entities\Order;
+use App\Modules\Order\Domain\Enums\OrderStatus;
 use App\Modules\Order\Domain\Exceptions\TicketsPerEventLimitExceededException;
 use App\Modules\Order\Domain\Repositories\OrderRepositoryInterface;
 
@@ -49,7 +50,7 @@ class CreateOrderUseCase
             new Money($event->ticketPrice->value()),
             $orderDiscount,
             $totalOrderAmount,
-            'pending'
+            OrderStatus::PENDING
         );
 
         $newOrder = $this->orderRepository->create($order);

@@ -37,7 +37,7 @@ readonly class OrderOutputDto
             ticket_price: $order->ticketPrice->value(),
             discount: $order->discount->value(),
             total_amount: $order->totalAmount->value(),
-            status: $order->status,
+            status: $order->status->value,
             tickets: $ticketsOutputDto,
             created_at: $order->createdAt,
             updated_at: $order->updatedAt,
