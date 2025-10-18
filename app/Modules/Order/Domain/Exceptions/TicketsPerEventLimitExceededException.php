@@ -4,7 +4,7 @@ namespace App\Modules\Order\Domain\Exceptions;
 
 use App\Core\Exceptions\ValidationException;
 
-class TicketPerEventLimitExceededException extends ValidationException
+class TicketsPerEventLimitExceededException extends ValidationException
 {
     protected $message = 'O seu limite de tickets para esse evento foi atingido.';
 

@@ -6,7 +6,7 @@ use App\Core\Exceptions\ValidationException;
 use App\Core\Helpers\Params;
 use App\Modules\Event\Domain\Entities\Event;
 use App\Modules\Event\Domain\ValueObjects\Money;
-use App\Modules\Order\Domain\Exceptions\TicketPerOrderLimitExceededException;
+use App\Modules\Order\Domain\Exceptions\TicketsPerOrderLimitExceededException;
 use App\Modules\User\Domain\Entities\User;
 
 class Order
@@ -38,7 +38,7 @@ class Order
         }
 
         if ($this->quantity > Params::maxTicketsPerOrder()) {
-            throw new TicketPerOrderLimitExceededException();
+            throw new TicketsPerOrderLimitExceededException;
         }
 
         if ($this->discount > $this->totalAmount) {

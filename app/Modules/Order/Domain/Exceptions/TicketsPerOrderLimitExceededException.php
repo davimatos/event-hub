@@ -4,7 +4,7 @@ namespace App\Modules\Order\Domain\Exceptions;
 
 use App\Core\Exceptions\ValidationException;
 
-class TicketPerOrderLimitExceededException extends ValidationException
+class TicketsPerOrderLimitExceededException extends ValidationException
 {
     protected $message = 'Só é permitido 5 ingressos por compra.';
 
