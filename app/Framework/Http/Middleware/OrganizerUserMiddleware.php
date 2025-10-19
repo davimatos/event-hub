@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Core\Http\Middleware;
+namespace App\Framework\Http\Middleware;
 
-use App\Core\Exceptions\UnauthorizedException;
+use App\Framework\Exceptions\UnauthorizedException;
 use App\Modules\User\Domain\Enums\UserType;
 use Closure;
 use Illuminate\Http\Request;

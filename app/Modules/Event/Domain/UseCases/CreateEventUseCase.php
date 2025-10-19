@@ -2,7 +2,7 @@
 
 namespace App\Modules\Event\Domain\UseCases;
 
-use App\Core\Exceptions\UnauthorizedException;
+use App\Framework\Exceptions\UnauthorizedException;
 use App\Modules\Event\Domain\Dtos\CreateEventInputDto;
 use App\Modules\Event\Domain\Dtos\EventOutputDto;
 use App\Modules\Event\Domain\Entities\Event;

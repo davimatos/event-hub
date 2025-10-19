@@ -2,7 +2,7 @@
 
 namespace App\Modules\Event\Domain\Entities;
 
-use App\Core\Exceptions\ValidationException;
+use App\Framework\Exceptions\ValidationException;
 use App\Modules\Event\Domain\ValueObjects\Date;
 use App\Modules\Event\Domain\ValueObjects\Money;
 use App\Modules\User\Domain\Entities\User;

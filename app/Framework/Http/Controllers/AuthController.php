@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Core\Http\Controllers;
+namespace App\Framework\Http\Controllers;
 
-use App\Core\Http\Requests\Auth\LoginRequest;
+use App\Framework\Http\Requests\Auth\LoginRequest;
 use App\Modules\Auth\Domain\UseCases\LoginUseCase;
 use Illuminate\Http\JsonResponse;
 

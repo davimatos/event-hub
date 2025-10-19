@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Http\Requests\Order;
+namespace App\Framework\Http\Requests\Order;
 
 use App\Modules\Order\Domain\Dtos\CreateOrderInputDto;
 use Illuminate\Foundation\Http\FormRequest;

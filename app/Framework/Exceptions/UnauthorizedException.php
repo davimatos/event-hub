@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Exceptions;
+namespace App\Framework\Exceptions;
 
 use Exception;
 use Illuminate\Contracts\Debug\ShouldntReport;

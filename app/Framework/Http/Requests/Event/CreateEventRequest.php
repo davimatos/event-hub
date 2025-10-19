@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Http\Requests\Event;
+namespace App\Framework\Http\Requests\Event;
 
 use App\Modules\Event\Domain\Dtos\CreateEventInputDto;
 use Illuminate\Foundation\Http\FormRequest;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Http\Requests\User;
+namespace App\Framework\Http\Requests\User;
 
 use App\Modules\User\Domain\Dtos\CreateUserInputDto;
 use Illuminate\Foundation\Http\FormRequest;

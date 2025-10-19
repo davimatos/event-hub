@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Core\Http\Controllers;
+namespace App\Framework\Http\Controllers;
 
-use App\Core\Http\Requests\Order\CreateOrderRequest;
+use App\Framework\Http\Requests\Order\CreateOrderRequest;
 use App\Modules\Order\Domain\UseCases\CreateOrderUseCase;
 use Illuminate\Http\JsonResponse;
 

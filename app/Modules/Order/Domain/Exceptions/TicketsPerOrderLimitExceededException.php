@@ -2,7 +2,7 @@
 
 namespace App\Modules\Order\Domain\Exceptions;
 
-use App\Core\Exceptions\ValidationException;
+use App\Framework\Exceptions\ValidationException;
 
 class TicketsPerOrderLimitExceededException extends ValidationException
 {

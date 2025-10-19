@@ -2,7 +2,7 @@
 
 namespace App\Modules\Order\Domain\UseCases;
 
-use App\Core\Exceptions\ResourceNotFoundException;
+use App\Framework\Exceptions\ResourceNotFoundException;
 use App\Modules\Event\Domain\Repositories\EventRepositoryInterface;
 use App\Modules\Event\Domain\ValueObjects\Money;
 use App\Modules\Order\Domain\Dtos\CreateOrderInputDto;

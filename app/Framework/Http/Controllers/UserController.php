@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Core\Http\Controllers;
+namespace App\Framework\Http\Controllers;
 
-use App\Core\Http\Requests\User\CreateUserRequest;
+use App\Framework\Http\Requests\User\CreateUserRequest;
 use App\Modules\User\Domain\UseCases\CreateUserUseCase;
 use Illuminate\Http\JsonResponse;
 

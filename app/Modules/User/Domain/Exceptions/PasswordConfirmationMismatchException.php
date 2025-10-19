@@ -2,7 +2,7 @@
 
 namespace App\Modules\User\Domain\Exceptions;
 
-use App\Core\Exceptions\ValidationException;
+use App\Framework\Exceptions\ValidationException;
 
 class PasswordConfirmationMismatchException extends ValidationException
 {

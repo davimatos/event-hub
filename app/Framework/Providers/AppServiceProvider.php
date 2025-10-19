@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Providers;
+namespace App\Framework\Providers;
 
 use App\Modules\Event\Domain\Repositories\EventRepositoryInterface;
 use App\Modules\Event\Infra\Persistence\Eloquent\Repositories\EventEloquentRepository;

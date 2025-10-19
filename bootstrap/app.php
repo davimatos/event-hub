@@ -25,7 +25,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->alias([
-            'user.organizer' => \App\Core\Http\Middleware\OrganizerUserMiddleware::class,
+            'user.organizer' => \App\Framework\Http\Middleware\OrganizerUserMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {})->create();

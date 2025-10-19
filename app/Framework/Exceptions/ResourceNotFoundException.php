@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Core\Exceptions;
+namespace App\Framework\Exceptions;
 
 use Exception;
 use Illuminate\Contracts\Debug\ShouldntReport;
 use Illuminate\Http\JsonResponse;
 
-class ValidationException extends Exception implements ShouldntReport
+class ResourceNotFoundException extends Exception implements ShouldntReport
 {
-    const DEFAULT_STATUS_CODE = 422;
+    const DEFAULT_STATUS_CODE = 404;
 
     public array $errors;
 

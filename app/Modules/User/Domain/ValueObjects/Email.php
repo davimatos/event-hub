@@ -2,7 +2,7 @@
 
 namespace App\Modules\User\Domain\ValueObjects;
 
-use App\Core\Exceptions\ValidationException;
+use App\Framework\Exceptions\ValidationException;
 
 final readonly class Email
 {

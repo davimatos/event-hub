@@ -1,9 +1,9 @@
 <?php
 
-use App\Core\Http\Controllers\AuthController;
-use App\Core\Http\Controllers\EventController;
-use App\Core\Http\Controllers\OrderController;
-use App\Core\Http\Controllers\UserController;
+use App\Framework\Http\Controllers\AuthController;
+use App\Framework\Http\Controllers\EventController;
+use App\Framework\Http\Controllers\OrderController;
+use App\Framework\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => '/v1'], function () {
