@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Order\Domain\UseCases;
+namespace App\Modules\Order\Application\UseCases;
 
 use App\Framework\Exceptions\ResourceNotFoundException;
 use App\Modules\Event\Domain\Repositories\EventRepositoryInterface;

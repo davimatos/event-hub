@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Auth\Domain\UseCases;
+namespace App\Modules\Auth\Application\UseCases;
 
 use App\Modules\Auth\Domain\Dtos\LoginInputDto;
 use App\Modules\Auth\Domain\Dtos\LoginOutputDto;

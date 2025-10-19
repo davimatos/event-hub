@@ -3,7 +3,7 @@
 namespace App\Framework\Http\Controllers;
 
 use App\Framework\Http\Requests\Event\CreateEventRequest;
-use App\Modules\Event\Domain\UseCases\CreateEventUseCase;
+use App\Modules\Event\Application\UseCases\CreateEventUseCase;
 use Illuminate\Http\JsonResponse;
 
 class EventController extends Controller

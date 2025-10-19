@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\User\Domain\UseCases;
+namespace App\Modules\User\Application\UseCases;
 
 use App\Framework\Exceptions\UnauthorizedException;
 use App\Modules\Shared\Domain\Adapters\AuthenticatorAdapterInterface;

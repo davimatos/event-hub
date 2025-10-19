@@ -3,7 +3,7 @@
 namespace App\Framework\Http\Controllers;
 
 use App\Framework\Http\Requests\Order\CreateOrderRequest;
-use App\Modules\Order\Domain\UseCases\CreateOrderUseCase;
+use App\Modules\Order\Application\UseCases\CreateOrderUseCase;
 use Illuminate\Http\JsonResponse;
 
 class OrderController extends Controller

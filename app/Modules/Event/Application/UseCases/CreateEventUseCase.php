@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Event\Domain\UseCases;
+namespace App\Modules\Event\Application\UseCases;
 
 use App\Framework\Exceptions\UnauthorizedException;
 use App\Modules\Event\Domain\Dtos\CreateEventInputDto;

@@ -3,7 +3,7 @@
 namespace App\Framework\Http\Controllers;
 
 use App\Framework\Http\Requests\Auth\LoginRequest;
-use App\Modules\Auth\Domain\UseCases\LoginUseCase;
+use App\Modules\Auth\Application\UseCases\LoginUseCase;
 use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller

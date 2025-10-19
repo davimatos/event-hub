@@ -3,7 +3,7 @@
 namespace App\Framework\Http\Controllers;
 
 use App\Framework\Http\Requests\User\CreateUserRequest;
-use App\Modules\User\Domain\UseCases\CreateUserUseCase;
+use App\Modules\User\Application\UseCases\CreateUserUseCase;
 use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
