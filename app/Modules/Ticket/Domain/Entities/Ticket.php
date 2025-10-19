@@ -2,7 +2,7 @@
 
 namespace App\Modules\Ticket\Domain\Entities;
 
-class Ticket
+readonly class Ticket
 {
     public function __construct(
         public ?string $id,

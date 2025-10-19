@@ -7,7 +7,7 @@ use App\Modules\Event\Domain\ValueObjects\Money;
 use App\Modules\Shared\Domain\Exceptions\ValidationException;
 use App\Modules\User\Domain\Entities\User;
 
-class Event
+readonly class Event
 {
     public function __construct(
         public ?string $id,

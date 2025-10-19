@@ -8,7 +8,7 @@ use App\Modules\Order\Domain\Enums\OrderStatus;
 use App\Modules\Shared\Domain\Exceptions\ValidationException;
 use App\Modules\User\Domain\Entities\User;
 
-class Order
+readonly class Order
 {
     public function __construct(
         public ?string $id,
