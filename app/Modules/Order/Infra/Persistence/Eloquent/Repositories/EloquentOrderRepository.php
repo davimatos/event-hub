@@ -9,7 +9,7 @@ use App\Modules\Order\Infra\Persistence\Eloquent\Mappers\OrderMapper;
 use App\Modules\Order\Infra\Persistence\Eloquent\Models\OrderModel;
 use App\Modules\Ticket\Infra\Persistence\Eloquent\Models\TicketModel;
 
-class OrderEloquentRepository implements OrderRepositoryInterface
+class EloquentOrderRepository implements OrderRepositoryInterface
 {
     public function create(Order $order): Order
     {

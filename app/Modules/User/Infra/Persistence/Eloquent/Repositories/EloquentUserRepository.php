@@ -7,7 +7,7 @@ use App\Modules\User\Domain\Repositories\UserRepositoryInterface;
 use App\Modules\User\Infra\Persistence\Eloquent\Mappers\UserMapper;
 use App\Modules\User\Infra\Persistence\Eloquent\Models\UserModel;
 
-class UserEloquentRepository implements UserRepositoryInterface
+class EloquentUserRepository implements UserRepositoryInterface
 {
     public function getByEmail(string $email): ?User
     {

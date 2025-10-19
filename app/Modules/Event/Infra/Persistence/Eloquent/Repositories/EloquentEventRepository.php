@@ -7,7 +7,7 @@ use App\Modules\Event\Domain\Repositories\EventRepositoryInterface;
 use App\Modules\Event\Infra\Persistence\Eloquent\Mappers\EventMapper;
 use App\Modules\Event\Infra\Persistence\Eloquent\Models\EventModel;
 
-class EventEloquentRepository implements EventRepositoryInterface
+class EloquentEventRepository implements EventRepositoryInterface
 {
     public function create(Event $event): Event
     {
