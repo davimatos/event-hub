@@ -9,7 +9,6 @@ use App\Modules\User\Domain\Dtos\UserOutputDto;
 use App\Modules\User\Domain\Entities\User;
 use App\Modules\User\Domain\Enums\UserType;
 use App\Modules\User\Domain\Exceptions\EmailAlreadyExistsException;
-use App\Modules\User\Domain\Exceptions\PasswordConfirmationMismatchException;
 use App\Modules\User\Domain\Repositories\UserRepositoryInterface;
 use App\Modules\User\Domain\ValueObjects\Email;
 use App\Modules\User\Domain\ValueObjects\Password;
@@ -23,10 +22,6 @@ class CreateUserUseCase
 
     public function execute(CreateUserInputDto $createUserInputDto): UserOutputDto
     {
-        if ($createUserInputDto->password !== $createUserInputDto->password_confirmation) {
-            throw new PasswordConfirmationMismatchException;
-        }
-
         if ($this->userRepository->getByEmail($createUserInputDto->email) !== null) {
             throw new EmailAlreadyExistsException;
         }

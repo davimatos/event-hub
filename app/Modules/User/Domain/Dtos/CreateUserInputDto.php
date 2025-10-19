@@ -9,6 +9,5 @@ readonly class CreateUserInputDto
         public string $email,
         public ?string $type,
         public string $password,
-        public string $password_confirmation,
     ) {}
 }

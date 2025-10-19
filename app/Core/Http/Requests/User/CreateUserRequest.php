@@ -13,8 +13,7 @@ class CreateUserRequest extends FormRequest
             'name' => ['string', 'required'],
             'email' => ['string', 'required'],
             'type' => ['string', 'sometimes'],
-            'password' => ['string', 'required'],
-            'password_confirmation' => ['string', 'required'],
+            'password' => ['string', 'required', 'confirmed'],
         ];
     }
 
@@ -24,8 +23,7 @@ class CreateUserRequest extends FormRequest
             $this->input('name'),
             $this->input('email'),
             $this->input('type'),
-            $this->input('password'),
-            $this->input('password_confirmation'),
+            $this->input('password')
         );
     }
 }
