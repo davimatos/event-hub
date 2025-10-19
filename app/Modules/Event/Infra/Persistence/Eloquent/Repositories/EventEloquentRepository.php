@@ -28,4 +28,10 @@ class EventEloquentRepository implements EventRepositoryInterface
 
         return EventMapper::toEntity($eventModel);
     }
+
+    public function decrementRemainingTickets(string $eventId, int $quantity): void
+    {
+        EventModel::where('id', $eventId)
+            ->decrement('remaining_tickets', $quantity);
+    }
 }
