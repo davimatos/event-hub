@@ -8,7 +8,6 @@ use App\Modules\Order\Domain\Repositories\OrderRepositoryInterface;
 use App\Modules\Order\Infra\Persistence\Eloquent\Mappers\OrderMapper;
 use App\Modules\Order\Infra\Persistence\Eloquent\Models\OrderModel;
 use App\Modules\Ticket\Infra\Persistence\Eloquent\Models\TicketModel;
-use Illuminate\Support\Facades\DB;
 
 class OrderEloquentRepository implements OrderRepositoryInterface
 {
@@ -16,21 +15,15 @@ class OrderEloquentRepository implements OrderRepositoryInterface
     {
         $orderModel = new OrderModel(OrderMapper::toPersistence($order));
 
-        DB::transaction(function () use ($orderModel) {
+        $orderModel->save();
 
-            $orderModel->save();
-
-            for ($c = 0; $c < $orderModel->quantity; $c++) {
-                TicketModel::create([
-                    'order_id' => $orderModel->id,
-                    'event_id' => $orderModel->event_id,
-                    'participant_id' => $orderModel->participant_id,
-                ]);
-            }
-
-            $orderModel->event->decrement('remaining_tickets', $orderModel->quantity);
-
-        }, attempts: 3);
+        for ($c = 1; $c <= $orderModel->quantity; $c++) {
+            TicketModel::create([
+                'order_id' => $orderModel->id,
+                'event_id' => $orderModel->event_id,
+                'participant_id' => $orderModel->participant_id,
+            ]);
+        }
 
         return OrderMapper::toEntity($orderModel);
     }

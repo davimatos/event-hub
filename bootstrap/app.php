@@ -2,9 +2,11 @@
 
 use App\Modules\Shared\Application\Exceptions\Contract\ApplicationException;
 use App\Modules\Shared\Domain\Exceptions\Contract\DomainException;
+use App\Modules\Shared\Infra\Exceptions\Contract\InfrastructureException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Support\Facades\App;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -37,11 +39,19 @@ return Application::configure(basePath: dirname(__DIR__))
             ApplicationException::class,
         ]);
 
-        $exceptions->renderable(function (DomainException|ApplicationException $e) {
+        $exceptions->renderable(function (DomainException|ApplicationException|InfrastructureException $e) {
             return response()->json([
                 'message' => $e->getMessage(),
                 ...$e->getContext() ? ['errors' => $e->getContext()] : [],
             ], $e->getStatusCode());
         });
+
+        if (App::isProduction()) {
+            $exceptions->renderable(function (\Throwable $e) {
+                return response()->json([
+                    'message' => 'Ocorreu um erro inesperado. Tente novamente mais tarde.',
+                ], 500);
+            });
+        }
 
     })->create();

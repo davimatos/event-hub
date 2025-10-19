@@ -12,9 +12,11 @@ use App\Modules\Order\Domain\Dtos\OrderOutputDto;
 use App\Modules\Order\Domain\Entities\Order;
 use App\Modules\Order\Domain\Enums\OrderStatus;
 use App\Modules\Order\Domain\Repositories\OrderRepositoryInterface;
+use App\Modules\PaymentProcessor\Application\Services\Contract\PaymentProcessorServiceInterface;
 use App\Modules\Shared\Application\Exceptions\ResourceNotFoundException;
 use App\Modules\Shared\Domain\Adapters\AuthenticatorAdapterInterface;
 use App\Modules\Shared\Domain\Repositories\ConfigParamsRepositoryInterface;
+use App\Modules\Shared\Domain\Repositories\TransactionManagerInterface;
 
 readonly class CreateOrderUseCase
 {
@@ -22,7 +24,9 @@ readonly class CreateOrderUseCase
         private AuthenticatorAdapterInterface $authenticator,
         private ConfigParamsRepositoryInterface $configParams,
         private OrderRepositoryInterface $orderRepository,
-        private EventRepositoryInterface $eventRepository
+        private EventRepositoryInterface $eventRepository,
+        private TransactionManagerInterface $transactionManager,
+        private PaymentProcessorServiceInterface $paymentProcessor,
     ) {}
 
     public function execute(CreateOrderInputDto $createOrderInputDto): OrderOutputDto
@@ -65,11 +69,18 @@ readonly class CreateOrderUseCase
             new Money($event->ticketPrice->value()),
             $orderDiscount,
             $totalOrderAmount,
-            OrderStatus::PENDING
+            OrderStatus::CONFIRMED
         );
 
-        $newOrder = $this->orderRepository->create($order);
+        $paymentId = $this->paymentProcessor->process($order);
+
+        $this->transactionManager->run(function () use ($order, &$newOrder) {
+            $newOrder = $this->orderRepository->create($order);
+
+            $this->eventRepository->decrementRemainingTickets($order->event->id, $order->quantity);
+        });
 
         return OrderOutputDto::fromEntity($newOrder);
+
     }
 }
