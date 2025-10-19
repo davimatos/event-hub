@@ -2,7 +2,7 @@
 
 namespace App\Modules\Event\Domain\ValueObjects;
 
-use App\Framework\Exceptions\ValidationException;
+use App\Modules\Shared\Domain\Exceptions\ValidationException;
 use DateTimeImmutable;
 
 final class Date

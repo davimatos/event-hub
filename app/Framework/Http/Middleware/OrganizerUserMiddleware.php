@@ -2,7 +2,7 @@
 
 namespace App\Framework\Http\Middleware;
 
-use App\Framework\Exceptions\UnauthorizedException;
+use App\Modules\Shared\Application\Exceptions\UnauthorizedException;
 use App\Modules\User\Domain\Enums\UserType;
 use Closure;
 use Illuminate\Http\Request;

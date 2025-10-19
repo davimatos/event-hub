@@ -2,10 +2,10 @@
 
 namespace App\Modules\Order\Domain\Entities;
 
-use App\Framework\Exceptions\ValidationException;
 use App\Modules\Event\Domain\Entities\Event;
 use App\Modules\Event\Domain\ValueObjects\Money;
 use App\Modules\Order\Domain\Enums\OrderStatus;
+use App\Modules\Shared\Domain\Exceptions\ValidationException;
 use App\Modules\User\Domain\Entities\User;
 
 class Order

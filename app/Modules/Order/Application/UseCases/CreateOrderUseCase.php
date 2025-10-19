@@ -2,16 +2,16 @@
 
 namespace App\Modules\Order\Application\UseCases;
 
-use App\Framework\Exceptions\ResourceNotFoundException;
 use App\Modules\Event\Domain\Repositories\EventRepositoryInterface;
 use App\Modules\Event\Domain\ValueObjects\Money;
+use App\Modules\Order\Application\Exceptions\TicketsPerEventLimitExceededException;
+use App\Modules\Order\Application\Exceptions\TicketsPerOrderLimitExceededException;
 use App\Modules\Order\Domain\Dtos\CreateOrderInputDto;
 use App\Modules\Order\Domain\Dtos\OrderOutputDto;
 use App\Modules\Order\Domain\Entities\Order;
 use App\Modules\Order\Domain\Enums\OrderStatus;
-use App\Modules\Order\Domain\Exceptions\TicketsPerEventLimitExceededException;
-use App\Modules\Order\Domain\Exceptions\TicketsPerOrderLimitExceededException;
 use App\Modules\Order\Domain\Repositories\OrderRepositoryInterface;
+use App\Modules\Shared\Application\Exceptions\ResourceNotFoundException;
 use App\Modules\Shared\Domain\Adapters\AuthenticatorAdapterInterface;
 use App\Modules\Shared\Domain\Repositories\ConfigParamsRepositoryInterface;
 

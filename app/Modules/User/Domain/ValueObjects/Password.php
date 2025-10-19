@@ -2,7 +2,7 @@
 
 namespace App\Modules\User\Domain\ValueObjects;
 
-use App\Framework\Exceptions\ValidationException;
+use App\Modules\Shared\Domain\Exceptions\ValidationException;
 
 final readonly class Password
 {

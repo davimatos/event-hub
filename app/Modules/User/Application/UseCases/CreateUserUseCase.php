@@ -2,13 +2,13 @@
 
 namespace App\Modules\User\Application\UseCases;
 
-use App\Framework\Exceptions\UnauthorizedException;
+use App\Modules\Shared\Application\Exceptions\UnauthorizedException;
 use App\Modules\Shared\Domain\Adapters\AuthenticatorAdapterInterface;
+use App\Modules\User\Application\Exceptions\EmailAlreadyExistsException;
 use App\Modules\User\Domain\Dtos\CreateUserInputDto;
 use App\Modules\User\Domain\Dtos\UserOutputDto;
 use App\Modules\User\Domain\Entities\User;
 use App\Modules\User\Domain\Enums\UserType;
-use App\Modules\User\Domain\Exceptions\EmailAlreadyExistsException;
 use App\Modules\User\Domain\Repositories\UserRepositoryInterface;
 use App\Modules\User\Domain\ValueObjects\Email;
 use App\Modules\User\Domain\ValueObjects\Password;

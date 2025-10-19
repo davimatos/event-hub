@@ -1,5 +1,7 @@
 <?php
 
+use App\Modules\Shared\Application\Exceptions\Contract\ApplicationException;
+use App\Modules\Shared\Domain\Exceptions\Contract\DomainException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -28,4 +30,18 @@ return Application::configure(basePath: dirname(__DIR__))
             'user.organizer' => \App\Framework\Http\Middleware\OrganizerUserMiddleware::class,
         ]);
     })
-    ->withExceptions(function (Exceptions $exceptions): void {})->create();
+    ->withExceptions(function (Exceptions $exceptions): void {
+
+        $exceptions->dontReport([
+            DomainException::class,
+            ApplicationException::class,
+        ]);
+
+        $exceptions->renderable(function (DomainException|ApplicationException $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                ...$e->getContext() ? ['errors' => $e->getContext()] : [],
+            ], $e->getStatusCode());
+        });
+
+    })->create();
