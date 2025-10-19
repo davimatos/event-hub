@@ -2,9 +2,9 @@
 
 namespace App\Modules\Event\Domain\Entities;
 
-use App\Modules\Event\Domain\ValueObjects\Date;
-use App\Modules\Event\Domain\ValueObjects\Money;
 use App\Modules\Shared\Domain\Exceptions\ValidationException;
+use App\Modules\Shared\Domain\ValueObjects\Date;
+use App\Modules\Shared\Domain\ValueObjects\Money;
 use App\Modules\User\Domain\Entities\User;
 
 readonly class Event

@@ -2,10 +2,10 @@
 
 namespace App\Modules\Order\Infra\Http\Services;
 
-use App\Modules\Event\Domain\ValueObjects\Money;
 use App\Modules\Order\Application\Services\PaymentGatewayServiceInterface;
 use App\Modules\Order\Infra\Http\Exceptions\PaymentGatewayException;
 use App\Modules\Order\Infra\Http\Exceptions\UnauthorizedPaymentException;
+use App\Modules\Shared\Domain\ValueObjects\Money;
 
 class FakePaymentGatewayService implements PaymentGatewayServiceInterface
 {

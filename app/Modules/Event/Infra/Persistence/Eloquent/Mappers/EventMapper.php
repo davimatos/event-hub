@@ -3,9 +3,9 @@
 namespace App\Modules\Event\Infra\Persistence\Eloquent\Mappers;
 
 use App\Modules\Event\Domain\Entities\Event;
-use App\Modules\Event\Domain\ValueObjects\Date;
-use App\Modules\Event\Domain\ValueObjects\Money;
 use App\Modules\Event\Infra\Persistence\Eloquent\Models\EventModel;
+use App\Modules\Shared\Domain\ValueObjects\Date;
+use App\Modules\Shared\Domain\ValueObjects\Money;
 use App\Modules\User\Infra\Persistence\Eloquent\Mappers\UserMapper;
 
 class EventMapper

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Event\Domain\ValueObjects;
+namespace App\Modules\Shared\Domain\ValueObjects;
 
 use App\Modules\Shared\Domain\Exceptions\ValidationException;
 use DateTimeImmutable;

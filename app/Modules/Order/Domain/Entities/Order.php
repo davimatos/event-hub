@@ -3,9 +3,9 @@
 namespace App\Modules\Order\Domain\Entities;
 
 use App\Modules\Event\Domain\Entities\Event;
-use App\Modules\Event\Domain\ValueObjects\Money;
 use App\Modules\Order\Domain\Enums\OrderStatus;
 use App\Modules\Shared\Domain\Exceptions\ValidationException;
+use App\Modules\Shared\Domain\ValueObjects\Money;
 use App\Modules\User\Domain\Entities\User;
 
 readonly class Order

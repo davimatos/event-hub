@@ -4,7 +4,6 @@ namespace App\Modules\Order\Application\UseCases;
 
 use App\Modules\Event\Application\Exceptions\EventCapacityExceededException;
 use App\Modules\Event\Domain\Repositories\EventRepositoryInterface;
-use App\Modules\Event\Domain\ValueObjects\Money;
 use App\Modules\Order\Application\Exceptions\TicketsPerEventLimitExceededException;
 use App\Modules\Order\Application\Exceptions\TicketsPerOrderLimitExceededException;
 use App\Modules\Order\Domain\Dtos\CreateOrderInputDto;
@@ -17,6 +16,7 @@ use App\Modules\Shared\Application\Exceptions\ResourceNotFoundException;
 use App\Modules\Shared\Domain\Adapters\AuthenticatorAdapterInterface;
 use App\Modules\Shared\Domain\Repositories\ConfigParamsRepositoryInterface;
 use App\Modules\Shared\Domain\Repositories\TransactionManagerInterface;
+use App\Modules\Shared\Domain\ValueObjects\Money;
 
 readonly class CreateOrderUseCase
 {
