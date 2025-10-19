@@ -11,8 +11,10 @@ use App\Modules\Order\Infra\Persistence\Eloquent\Repositories\EloquentOrderRepos
 use App\Modules\PaymentProcessor\Application\Services\Contract\PaymentProcessorServiceInterface;
 use App\Modules\PaymentProcessor\Application\Services\PaymentProcessorService;
 use App\Modules\Shared\Domain\Adapters\AuthenticatorAdapterInterface;
+use App\Modules\Shared\Domain\Adapters\LogAdapterInterface;
 use App\Modules\Shared\Domain\Repositories\ConfigParamsRepositoryInterface;
 use App\Modules\Shared\Domain\Repositories\TransactionManagerInterface;
+use App\Modules\Shared\Infra\Adapters\MonologLogAdapter;
 use App\Modules\Shared\Infra\Adapters\SanctrumAuthenticatorAdapter;
 use App\Modules\Shared\Infra\Repositories\LaravelConfigParamsRepository;
 use App\Modules\Shared\Infra\Repositories\Persistence\Eloquent\TransactionManager;
@@ -27,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ConfigParamsRepositoryInterface::class, LaravelConfigParamsRepository::class);
 
         $this->app->bind(AuthenticatorAdapterInterface::class, SanctrumAuthenticatorAdapter::class);
+        $this->app->bind(LogAdapterInterface::class, MonologLogAdapter::class);
 
         $this->app->bind(TransactionManagerInterface::class, TransactionManager::class);
         $this->app->bind(UserRepositoryInterface::class, EloquentUserRepository::class);

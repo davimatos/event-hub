@@ -5,7 +5,7 @@ namespace App\Modules\PaymentProcessor\Application\Services;
 use App\Modules\Order\Application\Services\PaymentGatewayServiceInterface;
 use App\Modules\Order\Domain\Entities\Order;
 use App\Modules\PaymentProcessor\Application\Services\Contract\PaymentProcessorServiceInterface;
-use Illuminate\Support\Facades\Log;
+use App\Modules\Shared\Domain\Adapters\LogAdapterInterface;
 
 readonly class PaymentProcessorService implements PaymentProcessorServiceInterface
 {
@@ -15,6 +15,7 @@ readonly class PaymentProcessorService implements PaymentProcessorServiceInterfa
 
     public function __construct(
         private PaymentGatewayServiceInterface $paymentGatewayService,
+        private LogAdapterInterface $logAdapter
     ) {}
 
     public function process(Order $order, int $retries = self::MAX_RETRIES): bool
@@ -25,7 +26,12 @@ readonly class PaymentProcessorService implements PaymentProcessorServiceInterfa
                     return true;
                 }
             } catch (\Exception $e) {
-                Log::debug('Payment authorization attempt '.$attempt.' failed: '.$e->getMessage());
+                $this->logAdapter->log(
+                    'error',
+                    "Falha na autorização de pagamento: {$e->getMessage()}",
+                    'payment_processor',
+                    ['attempt' => $attempt, 'order' => $order]
+                );
             }
 
             sleep(self::RETRY_DELAY_SECONDS);
