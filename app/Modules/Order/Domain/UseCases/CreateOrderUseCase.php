@@ -4,7 +4,6 @@ namespace App\Modules\Order\Domain\UseCases;
 
 use App\Core\Adapters\Auth\Contracts\AuthenticatorAdapterInterface;
 use App\Core\Exceptions\ResourceNotFoundException;
-use App\Core\Helpers\Params;
 use App\Modules\Event\Domain\Repositories\EventRepositoryInterface;
 use App\Modules\Event\Domain\ValueObjects\Money;
 use App\Modules\Order\Domain\Dtos\CreateOrderInputDto;
@@ -12,12 +11,15 @@ use App\Modules\Order\Domain\Dtos\OrderOutputDto;
 use App\Modules\Order\Domain\Entities\Order;
 use App\Modules\Order\Domain\Enums\OrderStatus;
 use App\Modules\Order\Domain\Exceptions\TicketsPerEventLimitExceededException;
+use App\Modules\Order\Domain\Exceptions\TicketsPerOrderLimitExceededException;
 use App\Modules\Order\Domain\Repositories\OrderRepositoryInterface;
+use App\Modules\Shared\Domain\Repositories\ConfigParamsRepositoryInterface;
 
 class CreateOrderUseCase
 {
     public function __construct(
         private AuthenticatorAdapterInterface $authenticator,
+        private ConfigParamsRepositoryInterface $configParams,
         private OrderRepositoryInterface $orderRepository,
         private EventRepositoryInterface $eventRepository
     ) {}
@@ -32,8 +34,12 @@ class CreateOrderUseCase
             throw new ResourceNotFoundException(['event_id' => 'Evento não encontrado.']);
         }
 
+        if ($createOrderInputDto->quantity > $this->configParams->maxTicketsPerOrder()) {
+            throw new TicketsPerOrderLimitExceededException;
+        }
+
         $countSoldTicketsByParticipant = $this->orderRepository->getCountSoldTicketsByParticipant($event->id, $authUser->id);
-        $remainingTicketsPerParticipant = Params::maxTicketsPerEvent() - $countSoldTicketsByParticipant;
+        $remainingTicketsPerParticipant = $this->configParams->maxTicketsPerEvent() - $countSoldTicketsByParticipant;
 
         if ($createOrderInputDto->quantity > $remainingTicketsPerParticipant) {
             throw new TicketsPerEventLimitExceededException("A quantidade informada excede o seu limite de tickets para esse evento. Restam {$remainingTicketsPerParticipant} tickets disponíveis.");

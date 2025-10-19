@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Core\Helpers;
+namespace App\Modules\Shared\Infra\Repositories;
 
-class Params
+use App\Modules\Shared\Domain\Repositories\ConfigParamsRepositoryInterface;
+
+class LaravelConfigParamsRepository implements ConfigParamsRepositoryInterface
 {
     public static function rateLimitPerMinute(): int
     {

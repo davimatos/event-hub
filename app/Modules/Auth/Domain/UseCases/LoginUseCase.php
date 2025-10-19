@@ -3,18 +3,18 @@
 namespace App\Modules\Auth\Domain\UseCases;
 
 use App\Core\Adapters\Auth\Contracts\AuthenticatorAdapterInterface;
-use App\Core\Helpers\Params;
 use App\Modules\Auth\Domain\Dtos\LoginInputDto;
 use App\Modules\Auth\Domain\Dtos\LoginOutputDto;
 use App\Modules\Auth\Domain\Exceptions\InvalidCredentialsException;
+use App\Modules\Shared\Domain\Repositories\ConfigParamsRepositoryInterface;
 use App\Modules\User\Domain\Repositories\UserRepositoryInterface;
 
 readonly class LoginUseCase
 {
     public function __construct(
         private AuthenticatorAdapterInterface $authenticator,
+        private ConfigParamsRepositoryInterface $configParams,
         private UserRepositoryInterface $userRepository,
-        private Params $params
     ) {}
 
     public function execute(LoginInputDto $loginInputDto): LoginOutputDto
@@ -36,6 +36,6 @@ readonly class LoginUseCase
 
         $authToken = $this->authenticator->generateToken();
 
-        return new LoginOutputDto($authToken, 'Bearer', $this->params::authTokenLifetimeInMinutes());
+        return new LoginOutputDto($authToken, 'Bearer', $this->configParams->authTokenLifetimeInMinutes());
     }
 }
