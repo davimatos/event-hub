@@ -2,7 +2,6 @@
 
 namespace App\Modules\Order\Domain\UseCases;
 
-use App\Core\Adapters\Auth\Contracts\AuthenticatorAdapterInterface;
 use App\Core\Exceptions\ResourceNotFoundException;
 use App\Modules\Event\Domain\Repositories\EventRepositoryInterface;
 use App\Modules\Event\Domain\ValueObjects\Money;
@@ -13,6 +12,7 @@ use App\Modules\Order\Domain\Enums\OrderStatus;
 use App\Modules\Order\Domain\Exceptions\TicketsPerEventLimitExceededException;
 use App\Modules\Order\Domain\Exceptions\TicketsPerOrderLimitExceededException;
 use App\Modules\Order\Domain\Repositories\OrderRepositoryInterface;
+use App\Modules\Shared\Domain\Adapters\AuthenticatorAdapterInterface;
 use App\Modules\Shared\Domain\Repositories\ConfigParamsRepositoryInterface;
 
 class CreateOrderUseCase

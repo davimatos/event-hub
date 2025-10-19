@@ -2,8 +2,8 @@
 
 namespace App\Modules\User\Domain\UseCases;
 
-use App\Core\Adapters\Auth\Contracts\AuthenticatorAdapterInterface;
 use App\Core\Exceptions\UnauthorizedException;
+use App\Modules\Shared\Domain\Adapters\AuthenticatorAdapterInterface;
 use App\Modules\User\Domain\Dtos\CreateUserInputDto;
 use App\Modules\User\Domain\Dtos\UserOutputDto;
 use App\Modules\User\Domain\Entities\User;

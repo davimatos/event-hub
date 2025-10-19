@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Adapters\Auth\Contracts;
+namespace App\Modules\Shared\Domain\Adapters;
 
 use App\Modules\User\Domain\Entities\User;
 
