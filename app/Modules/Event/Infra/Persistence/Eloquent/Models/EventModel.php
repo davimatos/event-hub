@@ -20,6 +20,7 @@ class EventModel extends Model
         'date',
         'ticket_price',
         'capacity',
+        'remaining_tickets',
     ];
 
     protected function casts(): array
@@ -28,6 +29,7 @@ class EventModel extends Model
             'date' => 'datetime',
             'ticket_price' => 'float',
             'capacity' => 'integer',
+            'remaining_tickets' => 'integer',
         ];
     }
 

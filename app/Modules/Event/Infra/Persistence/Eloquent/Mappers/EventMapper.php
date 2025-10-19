@@ -20,6 +20,7 @@ class EventMapper
             new Date($eventModel->date->format('Y-m-d')),
             new Money($eventModel->ticket_price),
             $eventModel->capacity,
+            $eventModel->remaining_tickets,
             $eventModel->created_at,
             $eventModel->updated_at
         );
@@ -34,6 +35,7 @@ class EventMapper
             'date' => $event->date,
             'ticket_price' => $event->ticketPrice->value(),
             'capacity' => $event->capacity,
+            'remaining_tickets' => $event->remainingTickets,
         ];
     }
 }

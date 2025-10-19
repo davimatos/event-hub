@@ -35,6 +35,7 @@ readonly class CreateEventUseCase
             date: new Date($createEventInputDto->date),
             ticketPrice: new Money($createEventInputDto->ticketPrice),
             capacity: $createEventInputDto->capacity,
+            remainingTickets: $createEventInputDto->capacity,
         );
 
         $newEvent = $this->eventRepository->create($event);

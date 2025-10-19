@@ -28,6 +28,8 @@ class OrderEloquentRepository implements OrderRepositoryInterface
                 ]);
             }
 
+            $orderModel->event->decrement('remaining_tickets', $orderModel->quantity);
+
         }, attempts: 3);
 
         return OrderMapper::toEntity($orderModel);

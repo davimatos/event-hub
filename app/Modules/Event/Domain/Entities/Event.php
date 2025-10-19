@@ -17,6 +17,7 @@ readonly class Event
         public Date $date,
         public Money $ticketPrice,
         public int $capacity,
+        public int $remainingTickets,
         public ?string $createdAt = null,
         public ?string $updatedAt = null,
     ) {
@@ -39,5 +40,15 @@ readonly class Event
         if ($eventDate < $todayDate) {
             throw new ValidationException(['date' => 'A data do evento não pode ser no passado.']);
         }
+    }
+
+    public function hasAvailableTickets(int $quantity): bool
+    {
+        return $this->remainingTickets >= $quantity;
+    }
+
+    public function hasSoldOut(): bool
+    {
+        return $this->remainingTickets <= 0;
     }
 }
