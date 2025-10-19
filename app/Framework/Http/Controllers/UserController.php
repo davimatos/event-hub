@@ -9,7 +9,7 @@ use Illuminate\Http\JsonResponse;
 class UserController extends Controller
 {
     public function __construct(
-        private CreateUserUseCase $createUserUseCase
+        private readonly CreateUserUseCase $createUserUseCase
     ) {}
 
     public function create(CreateUserRequest $request): JsonResponse

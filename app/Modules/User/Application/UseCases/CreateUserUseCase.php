@@ -13,7 +13,7 @@ use App\Modules\User\Domain\Repositories\UserRepositoryInterface;
 use App\Modules\User\Domain\ValueObjects\Email;
 use App\Modules\User\Domain\ValueObjects\Password;
 
-class CreateUserUseCase
+readonly class CreateUserUseCase
 {
     public function __construct(
         private AuthenticatorAdapterInterface $authenticator,

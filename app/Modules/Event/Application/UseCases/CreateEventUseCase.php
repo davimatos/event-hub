@@ -11,7 +11,7 @@ use App\Modules\Event\Domain\ValueObjects\Money;
 use App\Modules\Shared\Application\Exceptions\UnauthorizedException;
 use App\Modules\Shared\Domain\Adapters\AuthenticatorAdapterInterface;
 
-class CreateEventUseCase
+readonly class CreateEventUseCase
 {
     public function __construct(
         private AuthenticatorAdapterInterface $authenticator,

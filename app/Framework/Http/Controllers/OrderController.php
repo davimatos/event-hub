@@ -9,7 +9,7 @@ use Illuminate\Http\JsonResponse;
 class OrderController extends Controller
 {
     public function __construct(
-        private CreateOrderUseCase $createOrderUseCase,
+        private readonly CreateOrderUseCase $createOrderUseCase,
     ) {}
 
     public function create(CreateOrderRequest $request): JsonResponse

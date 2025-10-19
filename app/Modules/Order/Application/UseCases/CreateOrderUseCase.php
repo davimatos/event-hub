@@ -15,7 +15,7 @@ use App\Modules\Shared\Application\Exceptions\ResourceNotFoundException;
 use App\Modules\Shared\Domain\Adapters\AuthenticatorAdapterInterface;
 use App\Modules\Shared\Domain\Repositories\ConfigParamsRepositoryInterface;
 
-class CreateOrderUseCase
+readonly class CreateOrderUseCase
 {
     public function __construct(
         private AuthenticatorAdapterInterface $authenticator,
