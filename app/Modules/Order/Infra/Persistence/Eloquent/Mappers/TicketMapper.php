@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Modules\Ticket\Infra\Persistence\Eloquent\Mappers;
+namespace App\Modules\Order\Infra\Persistence\Eloquent\Mappers;
 
-use App\Modules\Ticket\Domain\Entities\Ticket;
-use App\Modules\Ticket\Infra\Persistence\Eloquent\Models\TicketModel;
+use App\Modules\Order\Domain\Entities\Ticket;
+use App\Modules\Order\Infra\Persistence\Eloquent\Models\TicketModel;
 
 class TicketMapper
 {

@@ -7,7 +7,6 @@ use App\Modules\Order\Domain\Entities\Order;
 use App\Modules\Order\Domain\Enums\OrderStatus;
 use App\Modules\Order\Infra\Persistence\Eloquent\Models\OrderModel;
 use App\Modules\Shared\Domain\ValueObjects\Money;
-use App\Modules\Ticket\Infra\Persistence\Eloquent\Mappers\TicketMapper;
 use App\Modules\User\Infra\Persistence\Eloquent\Mappers\UserMapper;
 
 class OrderMapper

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Ticket\Domain\Entities;
+namespace App\Modules\Order\Domain\Entities;
 
 readonly class Ticket
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Modules\Ticket\Domain\Dtos;
+namespace App\Modules\Order\Domain\Dtos;
 
-use App\Modules\Ticket\Domain\Entities\Ticket;
+use App\Modules\Order\Domain\Entities\Ticket;
 
 readonly class TicketOutputDto
 {

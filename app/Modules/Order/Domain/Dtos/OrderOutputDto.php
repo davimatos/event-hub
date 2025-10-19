@@ -3,7 +3,6 @@
 namespace App\Modules\Order\Domain\Dtos;
 
 use App\Modules\Order\Domain\Entities\Order;
-use App\Modules\Ticket\Domain\Dtos\TicketOutputDto;
 
 readonly class OrderOutputDto
 {

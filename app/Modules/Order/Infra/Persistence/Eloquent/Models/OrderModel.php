@@ -3,7 +3,6 @@
 namespace App\Modules\Order\Infra\Persistence\Eloquent\Models;
 
 use App\Modules\Event\Infra\Persistence\Eloquent\Models\EventModel;
-use App\Modules\Ticket\Infra\Persistence\Eloquent\Models\TicketModel;
 use App\Modules\User\Infra\Persistence\Eloquent\Models\UserModel;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;

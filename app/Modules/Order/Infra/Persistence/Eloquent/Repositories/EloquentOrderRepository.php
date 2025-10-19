@@ -7,7 +7,7 @@ use App\Modules\Order\Domain\Enums\OrderStatus;
 use App\Modules\Order\Domain\Repositories\OrderRepositoryInterface;
 use App\Modules\Order\Infra\Persistence\Eloquent\Mappers\OrderMapper;
 use App\Modules\Order\Infra\Persistence\Eloquent\Models\OrderModel;
-use App\Modules\Ticket\Infra\Persistence\Eloquent\Models\TicketModel;
+use App\Modules\Order\Infra\Persistence\Eloquent\Models\TicketModel;
 
 class EloquentOrderRepository implements OrderRepositoryInterface
 {
