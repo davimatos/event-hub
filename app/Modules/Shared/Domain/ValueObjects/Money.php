@@ -10,11 +10,20 @@ final class Money
 
     public function __construct(float $amount)
     {
-        if ($amount < 0) {
+        $this->amount = $amount;
+        $this->validate();
+    }
+
+    private function validate(): void
+    {
+        $this->validateAmount();
+    }
+
+    private function validateAmount(): void
+    {
+        if ($this->amount < 0) {
             throw new ValidationException(['*' => 'O valor monetário não pode ser negativo.']);
         }
-
-        $this->amount = $amount;
     }
 
     public function __toString(): string

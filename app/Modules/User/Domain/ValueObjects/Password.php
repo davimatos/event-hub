@@ -12,11 +12,20 @@ final readonly class Password
 
     public function __construct(string $password)
     {
-        if (strlen($password) < self::MIN_LENGTH) {
+        $this->password = $password;
+        $this->validate();
+    }
+
+    private function validate(): void
+    {
+        $this->validateLength();
+    }
+
+    private function validateLength(): void
+    {
+        if (strlen($this->password) < self::MIN_LENGTH) {
             throw new ValidationException(['password' => 'A senha deve ter no mínimo '.self::MIN_LENGTH.' caracteres.']);
         }
-
-        $this->password = $password;
     }
 
     public function __toString(): string

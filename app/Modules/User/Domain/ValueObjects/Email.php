@@ -10,13 +10,20 @@ final readonly class Email
 
     public function __construct(string $address)
     {
-        $address = trim(strtolower($address));
+        $this->address = trim(strtolower($address));
+        $this->validate();
+    }
 
-        if (filter_var($address, FILTER_VALIDATE_EMAIL) === false) {
+    private function validate(): void
+    {
+        $this->validateEmail();
+    }
+
+    private function validateEmail(): void
+    {
+        if (filter_var($this->address, FILTER_VALIDATE_EMAIL) === false) {
             throw new ValidationException(['email' => 'Endereço de email inválido.']);
         }
-
-        $this->address = $address;
     }
 
     public function __toString(): string
