@@ -24,7 +24,7 @@ readonly class GetOrderByIdUseCase
 
         $authUser = $this->authenticator->getAuthUser();
 
-        if ($order->participant->id !== $authUser->id || $order->event->organizer->id !== $authUser->id) {
+        if ($order->participant->id !== $authUser->id && $order->event->organizer->id !== $authUser->id) {
             throw new ResourceNotFoundException;
         }
 
