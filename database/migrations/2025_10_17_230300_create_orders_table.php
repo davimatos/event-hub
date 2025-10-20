@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('status');
             $table->timestamps();
 
+            $table->foreign('event_id')->references('id')->on('events');
             $table->foreign('participant_id')->references('id')->on('users');
         });
     }
