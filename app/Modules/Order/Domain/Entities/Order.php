@@ -28,6 +28,12 @@ readonly class Order
 
     private function validate(): void
     {
+        $this->validateQuantity();
+        $this->validateDiscount();
+    }
+
+    private function validateQuantity(): void
+    {
         if ($this->quantity <= 0) {
             throw new ValidationException(['quantity' => 'A quantidade deve ser maior que zero.']);
         }
@@ -35,7 +41,10 @@ readonly class Order
         if (filter_var($this->quantity, FILTER_VALIDATE_INT) === false) {
             throw new ValidationException(['quantity' => 'A quantidade deve ser um número inteiro.']);
         }
+    }
 
+    private function validateDiscount(): void
+    {
         if ($this->discount > $this->totalAmount) {
             throw new ValidationException(['discount' => 'O desconto não pode ser maior que o valor total.']);
         }

@@ -26,6 +26,12 @@ readonly class Event
 
     public function validate(): void
     {
+        $this->validateCapacity();
+        $this->validateEventDate();
+    }
+
+    private function validateCapacity(): void
+    {
         if ($this->capacity <= 0) {
             throw new ValidationException(['capacity' => 'A capacidade total deve ser maior que zero.']);
         }
@@ -33,7 +39,10 @@ readonly class Event
         if (filter_var($this->capacity, FILTER_VALIDATE_INT) === false) {
             throw new ValidationException(['capacity' => 'A capacidade total deve ser um número inteiro.']);
         }
+    }
 
+    private function validateEventDate(): void
+    {
         $eventDate = new \DateTimeImmutable($this->date);
         $todayDate = new \DateTimeImmutable('today');
 
