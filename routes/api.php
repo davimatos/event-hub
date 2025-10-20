@@ -12,6 +12,10 @@ Route::group(['prefix' => '/v1'], function () {
 
     Route::post('public/users', [UserController::class, 'create']);
 
+    Route::get('events', [EventController::class, 'index']);
+
+    Route::get('events/{id}', [EventController::class, 'show']);
+
     Route::middleware('auth:sanctum')->group(function () {
 
         Route::post('users', [UserController::class, 'create']);

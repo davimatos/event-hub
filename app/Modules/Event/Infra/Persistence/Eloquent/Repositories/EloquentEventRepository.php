@@ -30,6 +30,13 @@ class EloquentEventRepository implements EventRepositoryInterface
         return EventMapper::toEntity($eventModel);
     }
 
+    public function getAll(): array
+    {
+        $eventModels = EventModel::all();
+
+        return EventMapper::toEntityCollection($eventModels);
+    }
+
     public function getRemainingTickets(string $eventId): int
     {
         return DB::table('events')

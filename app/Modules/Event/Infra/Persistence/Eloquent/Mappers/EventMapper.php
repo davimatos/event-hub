@@ -7,6 +7,7 @@ use App\Modules\Event\Infra\Persistence\Eloquent\Models\EventModel;
 use App\Modules\Shared\Domain\ValueObjects\Date;
 use App\Modules\Shared\Domain\ValueObjects\Money;
 use App\Modules\User\Infra\Persistence\Eloquent\Mappers\UserMapper;
+use Illuminate\Database\Eloquent\Collection;
 
 class EventMapper
 {
@@ -24,6 +25,11 @@ class EventMapper
             $eventModel->created_at,
             $eventModel->updated_at
         );
+    }
+
+    public static function toEntityCollection(Collection $eventModels): array
+    {
+        return $eventModels->map(fn (EventModel $eventModel) => self::toEntity($eventModel))->toArray();
     }
 
     public static function toPersistence(Event $event): array
