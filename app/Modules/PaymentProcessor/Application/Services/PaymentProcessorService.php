@@ -19,9 +19,9 @@ readonly class PaymentProcessorService implements PaymentProcessorServiceInterfa
         private LogAdapterInterface $logAdapter
     ) {}
 
-    public function process(Order $order, CreditCard $creditCard, int $retries = self::MAX_RETRIES): bool
+    public function process(Order $order, CreditCard $creditCard): bool
     {
-        for ($attempt = 1; $attempt <= $retries; $attempt++) {
+        for ($attempt = 1; $attempt <= self::MAX_RETRIES; $attempt++) {
             try {
                 if ((bool) $this->paymentGatewayService->authorize($creditCard, $order->totalAmount) === true) {
                     return true;

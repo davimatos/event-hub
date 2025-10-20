@@ -7,5 +7,5 @@ use App\Modules\Order\Domain\Entities\Order;
 
 interface PaymentProcessorServiceInterface
 {
-    public function process(Order $order, CreditCard $creditCard, int $retries): bool;
+    public function process(Order $order, CreditCard $creditCard): bool;
 }
