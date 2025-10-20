@@ -96,7 +96,7 @@ class EventController extends Controller
     {
         $result = $this->listAllEventsUseCase->execute();
 
-        return response()->json(['items' => $result], 200);
+        return response()->json($result, 200);
     }
 
     /**
