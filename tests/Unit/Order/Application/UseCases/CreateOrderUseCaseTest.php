@@ -343,6 +343,63 @@ class CreateOrderUseCaseTest extends TestCase
         $this->useCase->execute($inputDto);
     }
 
+    public function test_create_order_exceeding_per_event_limit_throws_exception()
+    {
+        $inputDto = new CreateOrderInputDto(
+            eventId: 'event_123',
+            quantity: 6,
+            cardNumber: '1234567812345678',
+            cardHolderName: 'JOAO SILVA',
+            cardExpirationDate: '12/26',
+            cardCvv: '123'
+        );
+
+        $participant = $this->createParticipantUser();
+        $event = $this->createValidEvent();
+
+        $this->authenticator
+            ->expects($this->once())
+            ->method('getAuthUser')
+            ->willReturn($participant);
+
+        $this->configParams
+            ->method('maxTicketsPerOrder')
+            ->willReturn(20);
+
+        $this->configParams
+            ->method('maxTicketsPerEvent')
+            ->willReturn(15);
+
+        $this->eventRepository
+            ->method('getById')
+            ->with('event_123')
+            ->willReturn($event);
+
+        $this->eventRepository
+            ->method('getRemainingTickets')
+            ->with('event_123')
+            ->willReturn(100);
+
+        $this->orderRepository
+            ->expects($this->once())
+            ->method('getCountSoldTicketsByParticipant')
+            ->with('event_123', 'participant_123')
+            ->willReturn(10);
+
+        $this->transactionManager
+            ->expects($this->never())
+            ->method('run');
+
+        try {
+            $this->useCase->execute($inputDto);
+        } catch (TicketsPerEventLimitExceededException $e) {
+            $context = $e->getContext();
+            $this->assertArrayHasKey('quantity', $context);
+            $this->assertStringContainsString('A quantidade informada excede o seu limite de tickets para esse evento. Restam 5 tickets disponíveis.', $context['quantity']);
+        }
+
+    }
+
     public function test_create_order_with_valid_discount_coupon_applies_discount()
     {
         $inputDto = new CreateOrderInputDto(
