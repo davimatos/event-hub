@@ -54,4 +54,3 @@ class EventFactory extends Factory
         ]);
     }
 }
-

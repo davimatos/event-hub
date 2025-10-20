@@ -100,4 +100,3 @@ class CreatePublicUserTest extends TestCase
         ]);
     }
 }
-

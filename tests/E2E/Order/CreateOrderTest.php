@@ -63,13 +63,13 @@ class CreateOrderTest extends TestCase
     public function test_create_order_without_authentication()
     {
         $response = $this->postJson('/api/v1/buy-ticket', [
-                'event_id' => '1',
-                'quantity' => 2,
-                'card_number' => '4111111111111111',
-                'card_holder_name' => 'João Barros',
-                'card_expiration_date' => '12/26',
-                'card_cvv' => '123',
-            ]);
+            'event_id' => '1',
+            'quantity' => 2,
+            'card_number' => '4111111111111111',
+            'card_holder_name' => 'João Barros',
+            'card_expiration_date' => '12/26',
+            'card_cvv' => '123',
+        ]);
 
         $response->assertStatus(401);
     }

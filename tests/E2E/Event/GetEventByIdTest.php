@@ -14,7 +14,7 @@ class GetEventByIdTest extends TestCase
     {
         $event = EventModel::factory()->create();
 
-        $response = $this->getJson('/api/v1/events/' . $event->id);
+        $response = $this->getJson('/api/v1/events/'.$event->id);
 
         $response->assertStatus(200)->assertJsonStructure(['id']);
     }
@@ -26,4 +26,3 @@ class GetEventByIdTest extends TestCase
         $response->assertStatus(404);
     }
 }
-

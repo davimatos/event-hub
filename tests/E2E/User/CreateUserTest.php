@@ -107,12 +107,12 @@ class CreateUserTest extends TestCase
     public function test_create_user_without_authentication()
     {
         $response = $this->postJson('/api/v1/users', [
-                'name' => 'New User',
-                'email' => 'newuser@example.com',
-                'password' => 'password123',
-                'password_confirmation' => 'password123',
-                'type' => 'organizer',
-            ]);
+            'name' => 'New User',
+            'email' => 'newuser@example.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+            'type' => 'organizer',
+        ]);
 
         $response->assertStatus(401);
     }

@@ -45,8 +45,8 @@ class ListAllOrdersTest extends TestCase
                         'discount',
                         'total_amount',
                         'status',
-                    ]
-                ]
+                    ],
+                ],
             ])
             ->assertJsonCount(3, 'items');
     }

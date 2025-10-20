@@ -57,4 +57,3 @@ class TicketFactory extends Factory
         ]);
     }
 }
-

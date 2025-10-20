@@ -43,12 +43,12 @@ class CreateEventTest extends TestCase
     public function test_create_event_without_authentication()
     {
         $response = $this->postJson('/api/v1/events', [
-                'title' => 'Novo evento',
-                'description' => 'Esse é um novo evento',
-                'date' => now()->addDays(10)->toDateString(),
-                'capacity' => 100,
-                'ticket_price' => 50.00,
-            ]);
+            'title' => 'Novo evento',
+            'description' => 'Esse é um novo evento',
+            'date' => now()->addDays(10)->toDateString(),
+            'capacity' => 100,
+            'ticket_price' => 50.00,
+        ]);
 
         $response->assertStatus(401);
     }
@@ -167,4 +167,3 @@ class CreateEventTest extends TestCase
         $response->assertStatus(422)->assertJsonStructure(['errors' => ['capacity']]);
     }
 }
-
