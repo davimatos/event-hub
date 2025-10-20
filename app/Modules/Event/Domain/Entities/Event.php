@@ -35,10 +35,6 @@ readonly class Event
         if ($this->capacity <= 0) {
             throw new ValidationException(['capacity' => 'A capacidade total deve ser maior que zero.']);
         }
-
-        if (filter_var($this->capacity, FILTER_VALIDATE_INT) === false) {
-            throw new ValidationException(['capacity' => 'A capacidade total deve ser um número inteiro.']);
-        }
     }
 
     private function validateEventDate(): void
