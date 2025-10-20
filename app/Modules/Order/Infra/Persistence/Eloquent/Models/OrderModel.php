@@ -4,14 +4,16 @@ namespace App\Modules\Order\Infra\Persistence\Eloquent\Models;
 
 use App\Modules\Event\Infra\Persistence\Eloquent\Models\EventModel;
 use App\Modules\User\Infra\Persistence\Eloquent\Models\UserModel;
+use Database\Factories\OrderFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class OrderModel extends Model
 {
-    use HasUlids;
+    use HasFactory, HasUlids;
 
     protected $table = 'orders';
 
@@ -48,5 +50,10 @@ class OrderModel extends Model
     public function tickets(): HasMany
     {
         return $this->hasMany(TicketModel::class, 'order_id');
+    }
+
+    protected static function newFactory()
+    {
+        return OrderFactory::new();
     }
 }

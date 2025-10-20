@@ -4,13 +4,15 @@ namespace App\Modules\Order\Infra\Persistence\Eloquent\Models;
 
 use App\Modules\Event\Infra\Persistence\Eloquent\Models\EventModel;
 use App\Modules\User\Infra\Persistence\Eloquent\Models\UserModel;
+use Database\Factories\TicketFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class TicketModel extends Model
 {
-    use HasUlids;
+    use HasFactory, HasUlids;
 
     protected $table = 'tickets';
 
@@ -41,5 +43,10 @@ class TicketModel extends Model
     public function participant(): BelongsTo
     {
         return $this->belongsTo(UserModel::class, 'participant_id');
+    }
+
+    protected static function newFactory()
+    {
+        return TicketFactory::new();
     }
 }

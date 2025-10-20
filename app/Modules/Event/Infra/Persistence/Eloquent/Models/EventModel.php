@@ -3,13 +3,15 @@
 namespace App\Modules\Event\Infra\Persistence\Eloquent\Models;
 
 use App\Modules\User\Infra\Persistence\Eloquent\Models\UserModel;
+use Database\Factories\EventFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class EventModel extends Model
 {
-    use HasUlids;
+    use HasFactory, HasUlids;
 
     protected $table = 'events';
 
@@ -36,5 +38,10 @@ class EventModel extends Model
     public function organizer(): BelongsTo
     {
         return $this->belongsTo(UserModel::class, 'organizer_id');
+    }
+
+    protected static function newFactory()
+    {
+        return EventFactory::new();
     }
 }
