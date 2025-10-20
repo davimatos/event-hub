@@ -19,13 +19,6 @@ final class Date
             throw new ValidationException(['date' => 'Data inválida.']);
         }
 
-        $normalizedInput = preg_replace('/[^0-9]/', '', $trimmedDate);
-        $normalizedParsed = $parsedDate->format('Ymd');
-
-        if (strlen($normalizedInput) >= 6 && $normalizedInput !== $normalizedParsed) {
-            throw new ValidationException(['date' => 'Data inválida.']);
-        }
-
         $this->date = $parsedDate;
     }
 
