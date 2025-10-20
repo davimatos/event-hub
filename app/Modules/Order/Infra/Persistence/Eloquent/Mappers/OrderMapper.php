@@ -8,6 +8,7 @@ use App\Modules\Order\Domain\Enums\OrderStatus;
 use App\Modules\Order\Infra\Persistence\Eloquent\Models\OrderModel;
 use App\Modules\Shared\Domain\ValueObjects\Money;
 use App\Modules\User\Infra\Persistence\Eloquent\Mappers\UserMapper;
+use Illuminate\Database\Eloquent\Collection;
 
 class OrderMapper
 {
@@ -32,6 +33,11 @@ class OrderMapper
             $orderModel->created_at,
             $orderModel->updated_at
         );
+    }
+
+    public static function toEntityCollection(Collection $orderModels): array
+    {
+        return $orderModels->map(fn(OrderModel $orderModel) => self::toEntity($orderModel))->toArray();
     }
 
     public static function toPersistence(Order $order): array

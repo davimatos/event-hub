@@ -28,6 +28,35 @@ class EloquentOrderRepository implements OrderRepositoryInterface
         return OrderMapper::toEntity($orderModel);
     }
 
+    public function getById(string $id): ?Order
+    {
+        $orderModel = OrderModel::find($id);
+
+        if ($orderModel === null) {
+            return null;
+        }
+
+        return OrderMapper::toEntity($orderModel);
+    }
+
+    public function getAll(): array
+    {
+        $orderModels = OrderModel::all();
+
+        return OrderMapper::toEntityCollection($orderModels);
+    }
+
+    public function getAllByOrganizerOrParticipant(string $id): array
+    {
+        $orderModels = OrderModel::where('participant_id', $id)
+            ->orWhereHas('event', function ($query) use ($id) {
+                $query->where('organizer_id', $id);
+            })
+            ->get();
+
+        return OrderMapper::toEntityCollection($orderModels);
+    }
+
     public function getCountSoldTicketsByParticipant(string $eventId, string $participantId): int
     {
         $soldTicketsCount = OrderModel::where('event_id', $eventId)

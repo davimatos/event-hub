@@ -22,6 +22,10 @@ Route::group(['prefix' => '/v1'], function () {
 
         Route::post('buy-ticket', [OrderController::class, 'create']);
 
+        Route::get('orders', [OrderController::class, 'index']);
+
+        Route::get('orders/{id}', [OrderController::class, 'show']);
+
         Route::middleware('user.organizer')->group(function () {
 
             Route::post('events', [EventController::class, 'create']);
