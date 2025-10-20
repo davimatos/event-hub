@@ -12,6 +12,10 @@ class CreateOrderRequest extends FormRequest
         return [
             'event_id' => ['string', 'required'],
             'quantity' => ['numeric', 'required'],
+            'card_number' => ['string', 'required'],
+            'card_holder_name' => ['string', 'required'],
+            'card_expiration_date' => ['string', 'required'],
+            'card_cvv' => ['string', 'required'],
         ];
     }
 
@@ -20,6 +24,10 @@ class CreateOrderRequest extends FormRequest
         return new CreateOrderInputDto(
             $this->input('event_id'),
             $this->input('quantity'),
+            $this->input('card_number'),
+            $this->input('card_holder_name'),
+            $this->input('card_expiration_date'),
+            $this->input('card_cvv'),
         );
     }
 }

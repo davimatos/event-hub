@@ -3,6 +3,7 @@
 namespace App\Modules\PaymentProcessor\Application\Services;
 
 use App\Modules\Order\Application\Services\PaymentGatewayServiceInterface;
+use App\Modules\Order\Domain\Entities\CreditCard;
 use App\Modules\Order\Domain\Entities\Order;
 use App\Modules\PaymentProcessor\Application\Services\Contract\PaymentProcessorServiceInterface;
 use App\Modules\Shared\Domain\Adapters\LogAdapterInterface;
@@ -18,11 +19,11 @@ readonly class PaymentProcessorService implements PaymentProcessorServiceInterfa
         private LogAdapterInterface $logAdapter
     ) {}
 
-    public function process(Order $order, int $retries = self::MAX_RETRIES): bool
+    public function process(Order $order, CreditCard $creditCard, int $retries = self::MAX_RETRIES): bool
     {
         for ($attempt = 1; $attempt <= $retries; $attempt++) {
             try {
-                if ((bool) $this->paymentGatewayService->authorize($order->totalAmount) === true) {
+                if ((bool) $this->paymentGatewayService->authorize($creditCard, $order->totalAmount) === true) {
                     return true;
                 }
             } catch (\Exception $e) {

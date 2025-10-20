@@ -3,19 +3,27 @@
 namespace App\Modules\Order\Infra\Http\Services;
 
 use App\Modules\Order\Application\Services\PaymentGatewayServiceInterface;
+use App\Modules\Order\Domain\Entities\CreditCard;
 use App\Modules\Order\Infra\Http\Exceptions\PaymentGatewayException;
 use App\Modules\Order\Infra\Http\Exceptions\UnauthorizedPaymentException;
 use App\Modules\Shared\Domain\ValueObjects\Money;
 
-class FakePaymentGatewayService implements PaymentGatewayServiceInterface
+readonly class FakePaymentGatewayService implements PaymentGatewayServiceInterface
 {
     private const AUTHORIZATION_API_URL = 'https://util.devi.tools/api/v2/authorize';
 
     private const TIMEOUT_IN_SECONDS = 30;
 
-    public function authorize(Money $amount): string
+    public function authorize(CreditCard $creditCard, Money $amount): string
     {
-        $response = $this->makeRequest();
+        $response = $this->makeRequest([
+            'card_number' => $creditCard->number,
+            'card_holder' => $creditCard->holderName,
+            'card_expiration_date' => $creditCard->expirationDate,
+            'card_cvv' => $creditCard->cvv,
+            'amount' => $amount->value(),
+        ]);
+
         $data = $this->parseResponse($response);
 
         if ($this->isAuthorized($data) === false) {
@@ -25,7 +33,7 @@ class FakePaymentGatewayService implements PaymentGatewayServiceInterface
         return $this->generatePaymentCode();
     }
 
-    private function makeRequest(): string
+    private function makeRequest(array $body): string
     {
         $curl = curl_init(self::AUTHORIZATION_API_URL);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);

@@ -10,6 +10,7 @@ use App\Modules\Order\Application\Exceptions\TicketsPerOrderLimitExceededExcepti
 use App\Modules\Order\Application\Services\NewOrderNotificationServiceInterface;
 use App\Modules\Order\Domain\Dtos\CreateOrderInputDto;
 use App\Modules\Order\Domain\Dtos\OrderOutputDto;
+use App\Modules\Order\Domain\Entities\CreditCard;
 use App\Modules\Order\Domain\Entities\Order;
 use App\Modules\Order\Domain\Enums\OrderStatus;
 use App\Modules\Order\Domain\Repositories\OrderRepositoryInterface;
@@ -75,11 +76,18 @@ readonly class CreateOrderUseCase
             OrderStatus::CONFIRMED
         );
 
-        $this->transactionManager->run(function () use ($order, &$newOrder) {
+        $creditCard = new CreditCard(
+            $createOrderInputDto->cardNumber,
+            $createOrderInputDto->cardHolderName,
+            $createOrderInputDto->cardExpirationDate,
+            $createOrderInputDto->cardCvv,
+        );
+
+        $this->transactionManager->run(function () use ($order, $creditCard, &$newOrder) {
 
             $this->eventRepository->getRemainingTickets($order->event->id);
 
-            $isPaymentAuthorized = $this->paymentProcessor->process($order);
+            $isPaymentAuthorized = $this->paymentProcessor->process($order, $creditCard);
 
             if ($isPaymentAuthorized === false) {
                 throw new OrderPaymentFailException;
