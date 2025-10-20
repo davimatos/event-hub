@@ -10,7 +10,7 @@ class EmailTest extends TestCase
 {
     public function test_create_email_successfully()
     {
-        $email = new Email("joao@barros.com");
+        $email = new Email('joao@barros.com');
 
         $this->assertInstanceOf(Email::class, $email);
     }
@@ -18,7 +18,7 @@ class EmailTest extends TestCase
     public function test_email_with_invalid_format_throws_exception()
     {
         try {
-            new Email("joaobarros.com");
+            new Email('joaobarros.com');
         } catch (ValidationException $e) {
             $context = $e->getContext();
             $this->assertArrayHasKey('email', $context);
@@ -44,4 +44,3 @@ class EmailTest extends TestCase
         $this->assertEquals($emailString, (string) $email);
     }
 }
-

@@ -10,7 +10,7 @@ class DateTest extends TestCase
 {
     public function test_create_date_successfully()
     {
-        $date = new Date("2025-10-20");
+        $date = new Date('2025-10-20');
 
         $this->assertInstanceOf(Date::class, $date);
     }
@@ -18,7 +18,7 @@ class DateTest extends TestCase
     public function test_date_with_invalid_format_throws_exception()
     {
         try {
-            new Date("20/10/2025");
+            new Date('20/10/2025');
         } catch (ValidationException $e) {
             $context = $e->getContext();
             $this->assertArrayHasKey('date', $context);
@@ -29,7 +29,7 @@ class DateTest extends TestCase
     public function test_date_with_invalid_date_throws_exception()
     {
         try {
-            new Date("30/02/2025");
+            new Date('30/02/2025');
         } catch (ValidationException $e) {
             $context = $e->getContext();
             $this->assertArrayHasKey('date', $context);
@@ -37,7 +37,7 @@ class DateTest extends TestCase
         }
 
         try {
-            new Date("99/10/2025");
+            new Date('99/10/2025');
         } catch (ValidationException $e) {
             $context = $e->getContext();
             $this->assertArrayHasKey('date', $context);
@@ -60,7 +60,7 @@ class DateTest extends TestCase
 
         $date = new Date($dateString);
 
-        $this->assertEquals($dateString . ' 00:00:00', (string) $date);
+        $this->assertEquals($dateString.' 00:00:00', (string) $date);
     }
 
     public function test_date_with_trimmed_spaces()
@@ -72,4 +72,3 @@ class DateTest extends TestCase
         $this->assertEquals('2025-10-20 12:00:00', (string) $date);
     }
 }
-

@@ -20,7 +20,9 @@ use Tests\TestCase;
 class CreateEventUseCaseTest extends TestCase
 {
     private AuthenticatorAdapterInterface $authenticator;
+
     private EventRepositoryInterface $eventRepository;
+
     private CreateEventUseCase $useCase;
 
     protected function setUp(): void

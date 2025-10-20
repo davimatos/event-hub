@@ -19,7 +19,9 @@ use Tests\TestCase;
 class CreateUserUseCaseTest extends TestCase
 {
     private AuthenticatorAdapterInterface $authenticator;
+
     private UserRepositoryInterface $userRepository;
+
     private CreateUserUseCase $useCase;
 
     protected function setUp(): void
@@ -285,4 +287,3 @@ class CreateUserUseCaseTest extends TestCase
         $this->assertEquals('organizer', $result->type);
     }
 }
-

@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\User\Domain\ValueObjects;
 
-use App\Modules\User\Domain\ValueObjects\Password;
 use App\Modules\Shared\Domain\Exceptions\ValidationException;
+use App\Modules\User\Domain\ValueObjects\Password;
 use Tests\TestCase;
 
 class PasswordTest extends TestCase

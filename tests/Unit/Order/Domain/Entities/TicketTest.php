@@ -29,4 +29,3 @@ class TicketTest extends TestCase
         $this->assertEquals('2025-01-01 10:00:00', $ticket->updatedAt);
     }
 }
-

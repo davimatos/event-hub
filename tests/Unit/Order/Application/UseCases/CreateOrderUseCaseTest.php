@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Order\Application\UseCases;
 
-use App\Modules\Event\Application\Exceptions\EventCapacityExceededException;
 use App\Modules\Event\Domain\Entities\Event;
 use App\Modules\Event\Domain\Repositories\EventRepositoryInterface;
 use App\Modules\Order\Application\Exceptions\OrderPaymentFailException;
@@ -19,7 +18,6 @@ use App\Modules\Order\Domain\Enums\OrderStatus;
 use App\Modules\Order\Domain\Repositories\DiscountCouponRepositoryInterface;
 use App\Modules\Order\Domain\Repositories\OrderRepositoryInterface;
 use App\Modules\PaymentProcessor\Application\Services\Contract\PaymentProcessorServiceInterface;
-use App\Modules\Shared\Application\Exceptions\ResourceNotFoundException;
 use App\Modules\Shared\Domain\Adapters\AuthenticatorAdapterInterface;
 use App\Modules\Shared\Domain\Exceptions\ValidationException;
 use App\Modules\Shared\Domain\Repositories\ConfigParamsRepositoryInterface;
@@ -34,13 +32,21 @@ use Tests\TestCase;
 class CreateOrderUseCaseTest extends TestCase
 {
     private AuthenticatorAdapterInterface $authenticator;
+
     private ConfigParamsRepositoryInterface $configParams;
+
     private OrderRepositoryInterface $orderRepository;
+
     private EventRepositoryInterface $eventRepository;
+
     private TransactionManagerInterface $transactionManager;
+
     private DiscountCouponRepositoryInterface $discountCouponRepository;
+
     private PaymentProcessorServiceInterface $paymentProcessor;
+
     private NewOrderNotificationServiceInterface $newOrderNotification;
+
     private CreateOrderUseCase $useCase;
 
     protected function setUp(): void
@@ -191,6 +197,7 @@ class CreateOrderUseCaseTest extends TestCase
             ->willReturnCallback(function ($callback) use ($createdOrder, &$newOrder) {
                 $newOrder = $createdOrder;
                 $callback();
+
                 return $createdOrder;
             });
 
@@ -402,6 +409,7 @@ class CreateOrderUseCaseTest extends TestCase
             ->method('run')
             ->willReturnCallback(function ($callback) use ($createdOrder) {
                 $callback();
+
                 return $createdOrder;
             });
 
@@ -490,6 +498,7 @@ class CreateOrderUseCaseTest extends TestCase
             ->method('run')
             ->willReturnCallback(function ($callback) use ($createdOrder) {
                 $callback();
+
                 return $createdOrder;
             });
 
@@ -685,6 +694,7 @@ class CreateOrderUseCaseTest extends TestCase
             ->method('run')
             ->willReturnCallback(function ($callback) use ($createdOrder) {
                 $callback();
+
                 return $createdOrder;
             });
 
@@ -782,6 +792,7 @@ class CreateOrderUseCaseTest extends TestCase
             ->method('run')
             ->willReturnCallback(function ($callback) use ($createdOrder) {
                 $callback();
+
                 return $createdOrder;
             });
 
@@ -863,6 +874,7 @@ class CreateOrderUseCaseTest extends TestCase
             ->method('run')
             ->willReturnCallback(function ($callback) use ($createdOrder) {
                 $callback();
+
                 return $createdOrder;
             });
 
@@ -946,4 +958,3 @@ class CreateOrderUseCaseTest extends TestCase
         $this->useCase->execute($inputDto);
     }
 }
-

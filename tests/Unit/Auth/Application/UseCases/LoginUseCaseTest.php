@@ -18,8 +18,11 @@ use Tests\TestCase;
 class LoginUseCaseTest extends TestCase
 {
     private AuthenticatorAdapterInterface $authenticator;
+
     private ConfigParamsRepositoryInterface $configParams;
+
     private UserRepositoryInterface $userRepository;
+
     private LoginUseCase $useCase;
 
     protected function setUp(): void
@@ -171,4 +174,3 @@ class LoginUseCaseTest extends TestCase
         $this->useCase->execute($inputDto);
     }
 }
-

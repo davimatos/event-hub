@@ -51,4 +51,3 @@ class MoneyTest extends TestCase
         $this->assertEquals(0, $money->value());
     }
 }
-

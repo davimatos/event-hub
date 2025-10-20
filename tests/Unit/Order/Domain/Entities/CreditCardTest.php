@@ -96,4 +96,3 @@ class CreditCardTest extends TestCase
         $this->assertInstanceOf(CreditCard::class, $creditCard);
     }
 }
-

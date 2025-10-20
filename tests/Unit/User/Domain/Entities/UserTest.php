@@ -77,4 +77,3 @@ class UserTest extends TestCase
         $this->assertFalse($user->canCreateOrganizerUser());
     }
 }
-
