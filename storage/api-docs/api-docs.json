@@ -1,0 +1,1016 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Event Hub API",
+        "description": "API para gerenciamento de eventos com venda de ingressos, processamento de pagamentos e notificações.",
+        "contact": {
+            "email": "contato@eventhub.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost/api/v1",
+            "description": "Servidor local"
+        }
+    ],
+    "paths": {
+        "/auth/token": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Autenticar usuário",
+                "description": "Realiza login e retorna token de autenticação",
+                "operationId": "7888cbc3ab701f3a4c0694b234cf7c09",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "admin@admin.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "12345678"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login realizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "example": "1|abcdef123456"
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "example": "Bearer"
+                                        },
+                                        "expires_in": {
+                                            "type": "integer",
+                                            "example": 3600
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Credenciais inválidas"
+                    },
+                    "422": {
+                        "description": "Dados de validação inválidos"
+                    }
+                }
+            }
+        },
+        "/events": {
+            "get": {
+                "tags": [
+                    "Events"
+                ],
+                "summary": "Listar todos os eventos",
+                "description": "Retorna uma lista de todos os eventos disponíveis",
+                "operationId": "678607e594e433c58bfa0e62950b92ba",
+                "responses": {
+                    "200": {
+                        "description": "Lista de eventos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "items": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "example": "ulid"
+                                                    },
+                                                    "organizer": {
+                                                        "$ref": "#/components/schemas/User"
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Show de Rock"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Um grande show de rock"
+                                                    },
+                                                    "date": {
+                                                        "type": "string",
+                                                        "example": "2025-12-31 20:00:00"
+                                                    },
+                                                    "ticket_price": {
+                                                        "type": "number",
+                                                        "example": 50
+                                                    },
+                                                    "capacity": {
+                                                        "type": "integer",
+                                                        "example": 100
+                                                    },
+                                                    "remaining_tickets": {
+                                                        "type": "integer",
+                                                        "example": 85
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2025-10-20 12:00:00"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2025-10-20 12:00:00"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Events"
+                ],
+                "summary": "Criar evento",
+                "description": "Cria um novo evento. Requer autenticação de Organizador",
+                "operationId": "c94193f1bc70d3546f62a20f9eb47d86",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "description",
+                                    "date",
+                                    "ticket_price",
+                                    "capacity"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Show de Rock"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Um grande show de rock com bandas locais"
+                                    },
+                                    "date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-12-31"
+                                    },
+                                    "ticket_price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 50
+                                    },
+                                    "capacity": {
+                                        "type": "integer",
+                                        "example": 100
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Evento criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "example": "ulid"
+                                        },
+                                        "organizer": {
+                                            "$ref": "#/components/schemas/User"
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "Show de Rock"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "Um grande show de rock com bandas locais"
+                                        },
+                                        "date": {
+                                            "type": "string",
+                                            "example": "2025-12-31"
+                                        },
+                                        "ticket_price": {
+                                            "type": "number",
+                                            "example": 50
+                                        },
+                                        "capacity": {
+                                            "type": "integer",
+                                            "example": 100
+                                        },
+                                        "remaining_tickets": {
+                                            "type": "integer",
+                                            "example": 100
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2025-10-20 12:00:00"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2025-10-20 12:00:00"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autenticado"
+                    },
+                    "403": {
+                        "description": "Não autorizado - apenas Organizadores podem criar eventos"
+                    },
+                    "422": {
+                        "description": "Dados de validação inválidos"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/events/{id}": {
+            "get": {
+                "tags": [
+                    "Events"
+                ],
+                "summary": "Buscar evento por ID",
+                "description": "Retorna os detalhes de um evento específico",
+                "operationId": "2d12e555e58ea8f2fa8535f3303c6c87",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do evento",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes do evento",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "example": "ulid"
+                                        },
+                                        "organizer": {
+                                            "$ref": "#/components/schemas/User"
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "Show de Rock"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "Um grande show de rock"
+                                        },
+                                        "date": {
+                                            "type": "string",
+                                            "example": "2025-12-31 20:00:00"
+                                        },
+                                        "ticket_price": {
+                                            "type": "number",
+                                            "example": 50
+                                        },
+                                        "capacity": {
+                                            "type": "integer",
+                                            "example": 100
+                                        },
+                                        "remaining_tickets": {
+                                            "type": "integer",
+                                            "example": 85
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2025-10-20 12:00:00"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2025-10-20 12:00:00"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Evento não encontrado"
+                    }
+                }
+            }
+        },
+        "/buy-ticket": {
+            "post": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Comprar ingressos",
+                "description": "Realiza a compra de ingressos para um evento",
+                "operationId": "da991c0e1abe7d76291de3fef5a40fdc",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "event_id",
+                                    "quantity",
+                                    "card_number",
+                                    "card_holder_name",
+                                    "card_expiration_date",
+                                    "card_cvv"
+                                ],
+                                "properties": {
+                                    "event_id": {
+                                        "type": "string",
+                                        "example": "ulid"
+                                    },
+                                    "quantity": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "discount_coupon": {
+                                        "type": "string",
+                                        "example": "BLACKFRIDAY"
+                                    },
+                                    "card_number": {
+                                        "type": "string",
+                                        "example": "1234567890123456"
+                                    },
+                                    "card_holder_name": {
+                                        "type": "string",
+                                        "example": "JOAO SILVA"
+                                    },
+                                    "card_expiration_date": {
+                                        "type": "string",
+                                        "example": "12/25"
+                                    },
+                                    "card_cvv": {
+                                        "type": "string",
+                                        "example": "123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Pedido criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "example": "ulid"
+                                        },
+                                        "event_id": {
+                                            "type": "string",
+                                            "example": "ulid"
+                                        },
+                                        "participant_id": {
+                                            "type": "string",
+                                            "example": "ulid"
+                                        },
+                                        "quantity": {
+                                            "type": "integer",
+                                            "example": 2
+                                        },
+                                        "ticket_price": {
+                                            "type": "number",
+                                            "example": 50
+                                        },
+                                        "discount": {
+                                            "type": "number",
+                                            "example": 5
+                                        },
+                                        "total_amount": {
+                                            "type": "number",
+                                            "example": 95
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "CONFIRMED"
+                                        },
+                                        "tickets": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "example": "ulid"
+                                                    },
+                                                    "order_id": {
+                                                        "type": "string",
+                                                        "example": "ulid"
+                                                    },
+                                                    "event_id": {
+                                                        "type": "string",
+                                                        "example": "ulid"
+                                                    },
+                                                    "participant_id": {
+                                                        "type": "string",
+                                                        "example": "ulid"
+                                                    },
+                                                    "used_at": {
+                                                        "type": "string",
+                                                        "example": null,
+                                                        "nullable": true
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2025-10-20 12:00:00"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2025-10-20 12:00:00"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2025-10-20 12:00:00"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2025-10-20 12:00:00"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autenticado"
+                    },
+                    "422": {
+                        "description": "Dados de validação inválidos"
+                    },
+                    "400": {
+                        "description": "Erro no processamento do pedido"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/orders": {
+            "get": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Listar pedidos do usuário",
+                "description": "Retorna todos os pedidos do usuário autenticado",
+                "operationId": "5f78692ecf363eff1a55a9fae908dbf5",
+                "responses": {
+                    "200": {
+                        "description": "Lista de pedidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "items": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "example": "ulid"
+                                                    },
+                                                    "event_id": {
+                                                        "type": "string",
+                                                        "example": "ulid"
+                                                    },
+                                                    "participant_id": {
+                                                        "type": "string",
+                                                        "example": "ulid"
+                                                    },
+                                                    "quantity": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "ticket_price": {
+                                                        "type": "number",
+                                                        "example": 50
+                                                    },
+                                                    "discount": {
+                                                        "type": "number",
+                                                        "example": 5
+                                                    },
+                                                    "total_amount": {
+                                                        "type": "number",
+                                                        "example": 95
+                                                    },
+                                                    "status": {
+                                                        "type": "string",
+                                                        "example": "CONFIRMED"
+                                                    },
+                                                    "tickets": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "string",
+                                                                    "example": "ulid"
+                                                                },
+                                                                "order_id": {
+                                                                    "type": "string",
+                                                                    "example": "ulid"
+                                                                },
+                                                                "event_id": {
+                                                                    "type": "string",
+                                                                    "example": "ulid"
+                                                                },
+                                                                "participant_id": {
+                                                                    "type": "string",
+                                                                    "example": "ulid"
+                                                                },
+                                                                "used_at": {
+                                                                    "type": "string",
+                                                                    "example": null,
+                                                                    "nullable": true
+                                                                },
+                                                                "created_at": {
+                                                                    "type": "string",
+                                                                    "example": "2025-10-20 12:00:00"
+                                                                },
+                                                                "updated_at": {
+                                                                    "type": "string",
+                                                                    "example": "2025-10-20 12:00:00"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2025-10-20 12:00:00"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2025-10-20 12:00:00"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/orders/{id}": {
+            "get": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Buscar pedido por ID",
+                "description": "Retorna os detalhes de um pedido específico",
+                "operationId": "637dfd376085208002bf92ac5462e42c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do pedido",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes do pedido",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "example": "ulid"
+                                        },
+                                        "event_id": {
+                                            "type": "string",
+                                            "example": "ulid"
+                                        },
+                                        "participant_id": {
+                                            "type": "string",
+                                            "example": "ulid"
+                                        },
+                                        "quantity": {
+                                            "type": "integer",
+                                            "example": 2
+                                        },
+                                        "ticket_price": {
+                                            "type": "number",
+                                            "example": 50
+                                        },
+                                        "discount": {
+                                            "type": "number",
+                                            "example": 5
+                                        },
+                                        "total_amount": {
+                                            "type": "number",
+                                            "example": 95
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "CONFIRMED"
+                                        },
+                                        "tickets": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "example": "ulid"
+                                                    },
+                                                    "order_id": {
+                                                        "type": "string",
+                                                        "example": "ulid"
+                                                    },
+                                                    "event_id": {
+                                                        "type": "string",
+                                                        "example": "ulid"
+                                                    },
+                                                    "participant_id": {
+                                                        "type": "string",
+                                                        "example": "ulid"
+                                                    },
+                                                    "used_at": {
+                                                        "type": "string",
+                                                        "example": null,
+                                                        "nullable": true
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2025-10-20 12:00:00"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2025-10-20 12:00:00"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2025-10-20 12:00:00"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2025-10-20 12:00:00"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autenticado"
+                    },
+                    "404": {
+                        "description": "Pedido não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/public/users": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Criar usuário público (Participante)",
+                "description": "Cria um novo usuário participante sem autenticação",
+                "operationId": "b9e7790a71f088c9a5b38c944ba33dc7",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "João Silva"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "joao@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "12345678"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "12345678"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuário criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "example": "ulid"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "João Silva"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "joao@example.com"
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "example": "PARTICIPANT"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2025-10-20 12:00:00"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2025-10-20 12:00:00"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Dados de validação inválidos"
+                    }
+                }
+            }
+        },
+        "/users": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Criar usuário (Admin)",
+                "description": "Cria um novo usuário (Participante ou Organizador). Requer autenticação de Admin para criar Organizador",
+                "operationId": "019c4bcb7000fd1fb597d07b8caec124",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Maria Santos"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "maria@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "12345678"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "12345678"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "PARTICIPANT",
+                                            "ORGANIZER"
+                                        ],
+                                        "example": "ORGANIZER"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuário criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "example": "ulid"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Maria Santos"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "maria@example.com"
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "example": "ORGANIZER"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2025-10-20 12:00:00"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2025-10-20 12:00:00"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autenticado"
+                    },
+                    "403": {
+                        "description": "Não autorizado"
+                    },
+                    "422": {
+                        "description": "Dados de validação inválidos"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "User": {
+                "required": [
+                    "id",
+                    "name",
+                    "email",
+                    "type",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "ulid"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "João Silva"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "joao@example.com"
+                    },
+                    "type": {
+                        "type": "string",
+                        "example": "ORGANIZER"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2025-10-20 12:00:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2025-10-20 12:00:00"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "description": "Autenticação via token Bearer",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "Autenticação e autorização"
+        },
+        {
+            "name": "Users",
+            "description": "Gerenciamento de usuários"
+        },
+        {
+            "name": "Events",
+            "description": "Gerenciamento de eventos"
+        },
+        {
+            "name": "Orders",
+            "description": "Gerenciamento de pedidos e ingressos"
+        }
+    ]
+}

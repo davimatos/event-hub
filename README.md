@@ -27,21 +27,17 @@ docker-compose exec laravel.test composer install
 docker-compose exec laravel.test bash -c "php artisan key:generate && php artisan migrate && php artisan db:seed && php artisan migrate --env=testing"
 ```
 
-Após a inicialização dos containers, os seguintes serviços estarão disponíveis:
+Após a inicialização e execução dos containers, os seguintes recursos estarão disponíveis:
 
 | Serviço | Porta | Descrição                          | Como acessar |
 |---------|-------|------------------------------------|--------------|
 | **Laravel (API)** | `80` | Aplicação principal                | http://localhost/api/v1/ |
 | **MySQL** | `3306` | Banco de dados                     | `localhost:3306` |
-| **Workers** | - | Processamento fila de notificações | `php artisan queue:work --queue=notifications` |
+| **Workers** | - | Processamento de filas | `php artisan queue:work --queue=notifications` |
+| **Documentação** | - | Swagger/OpenAPI | http://localhost/docs* |
 
-## Testes
+<small>* Para gerar a documentação Swagger, execute: <code>php artisan l5-swagger:generate</code></small>
 
-Para rodar a suíte de testes com PHPUnit (Unit, Feature e E2E):
-
-```bash
-php artisan test
-```
 
 ## Parâmetros
 
@@ -61,3 +57,11 @@ Os cupons de desconto são hardcoded no sistema:
 | `BLACKFRIDAY` | 50% |
 | `PROMO30` | 30% |
 | `10OFF` | 20% |
+
+## Testes
+
+Para rodar a suíte de testes com PHPUnit (Unit, Feature e E2E):
+
+```bash
+php artisan test
+```
