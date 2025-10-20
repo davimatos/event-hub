@@ -4,8 +4,10 @@ namespace App\Modules\Order\Application\UseCases;
 
 use App\Modules\Event\Application\Exceptions\EventCapacityExceededException;
 use App\Modules\Event\Domain\Repositories\EventRepositoryInterface;
+use App\Modules\Order\Application\Exceptions\OrderPaymentFailException;
 use App\Modules\Order\Application\Exceptions\TicketsPerEventLimitExceededException;
 use App\Modules\Order\Application\Exceptions\TicketsPerOrderLimitExceededException;
+use App\Modules\Order\Application\Services\NewOrderNotificationServiceInterface;
 use App\Modules\Order\Domain\Dtos\CreateOrderInputDto;
 use App\Modules\Order\Domain\Dtos\OrderOutputDto;
 use App\Modules\Order\Domain\Entities\Order;
@@ -27,6 +29,7 @@ readonly class CreateOrderUseCase
         private EventRepositoryInterface $eventRepository,
         private TransactionManagerInterface $transactionManager,
         private PaymentProcessorServiceInterface $paymentProcessor,
+        private NewOrderNotificationServiceInterface $newOrderNotification,
     ) {}
 
     public function execute(CreateOrderInputDto $createOrderInputDto): OrderOutputDto
@@ -72,13 +75,19 @@ readonly class CreateOrderUseCase
             OrderStatus::CONFIRMED
         );
 
-        $paymentId = $this->paymentProcessor->process($order);
+        $isPaymentAuthorized = $this->paymentProcessor->process($order);
+
+        if ($isPaymentAuthorized === false) {
+            throw new OrderPaymentFailException;
+        }
 
         $this->transactionManager->run(function () use ($order, &$newOrder) {
             $newOrder = $this->orderRepository->create($order);
 
             $this->eventRepository->decrementRemainingTickets($order->event->id, $order->quantity);
         });
+
+        $this->newOrderNotification->execute($newOrder);
 
         return OrderOutputDto::fromEntity($newOrder);
 
