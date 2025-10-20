@@ -23,4 +23,3 @@ readonly class ListAllOrdersUseCase
         return CollectionOutputDto::fromEntities($orders, OrderOutputDto::class);
     }
 }
-

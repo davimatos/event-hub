@@ -6,10 +6,12 @@ use App\Modules\Event\Domain\Repositories\EventRepositoryInterface;
 use App\Modules\Event\Infra\Persistence\Eloquent\Repositories\EloquentEventRepository;
 use App\Modules\Order\Application\Services\NewOrderNotificationServiceInterface;
 use App\Modules\Order\Application\Services\PaymentGatewayServiceInterface;
+use App\Modules\Order\Domain\Repositories\DiscountCouponRepositoryInterface;
 use App\Modules\Order\Domain\Repositories\OrderRepositoryInterface;
 use App\Modules\Order\Infra\Http\Services\FakePaymentGatewayService;
 use App\Modules\Order\Infra\Http\Services\NewOrderNotificationService;
 use App\Modules\Order\Infra\Persistence\Eloquent\Repositories\EloquentOrderRepository;
+use App\Modules\Order\Infra\Persistence\Memory\Repositories\MemoryDiscountCouponRepository;
 use App\Modules\PaymentProcessor\Application\Services\Contract\PaymentProcessorServiceInterface;
 use App\Modules\PaymentProcessor\Application\Services\PaymentProcessorService;
 use App\Modules\Shared\Application\Services\NotificationServiceInterface;
@@ -42,6 +44,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(UserRepositoryInterface::class, EloquentUserRepository::class);
         $this->app->bind(EventRepositoryInterface::class, EloquentEventRepository::class);
         $this->app->bind(OrderRepositoryInterface::class, EloquentOrderRepository::class);
+        $this->app->bind(DiscountCouponRepositoryInterface::class, MemoryDiscountCouponRepository::class);
 
         $this->app->bind(PaymentProcessorServiceInterface::class, PaymentProcessorService::class);
         $this->app->bind(PaymentGatewayServiceInterface::class, FakePaymentGatewayService::class);

@@ -11,8 +11,10 @@ use App\Modules\Order\Application\Services\NewOrderNotificationServiceInterface;
 use App\Modules\Order\Domain\Dtos\CreateOrderInputDto;
 use App\Modules\Order\Domain\Dtos\OrderOutputDto;
 use App\Modules\Order\Domain\Entities\CreditCard;
+use App\Modules\Order\Domain\Entities\DiscountCoupon;
 use App\Modules\Order\Domain\Entities\Order;
 use App\Modules\Order\Domain\Enums\OrderStatus;
+use App\Modules\Order\Domain\Repositories\DiscountCouponRepositoryInterface;
 use App\Modules\Order\Domain\Repositories\OrderRepositoryInterface;
 use App\Modules\PaymentProcessor\Application\Services\Contract\PaymentProcessorServiceInterface;
 use App\Modules\Shared\Application\Exceptions\ResourceNotFoundException;
@@ -29,6 +31,7 @@ readonly class CreateOrderUseCase
         private OrderRepositoryInterface $orderRepository,
         private EventRepositoryInterface $eventRepository,
         private TransactionManagerInterface $transactionManager,
+        private DiscountCouponRepositoryInterface $discountCouponRepository,
         private PaymentProcessorServiceInterface $paymentProcessor,
         private NewOrderNotificationServiceInterface $newOrderNotification,
     ) {}
@@ -62,8 +65,17 @@ readonly class CreateOrderUseCase
             throw new TicketsPerEventLimitExceededException("A quantidade informada excede o seu limite de tickets para esse evento. Restam {$remainingTicketsPerParticipant} tickets disponíveis.");
         }
 
-        $orderDiscount = new Money(0);
-        $totalOrderAmount = new Money(($createOrderInputDto->quantity * $event->ticketPrice->value()) - $orderDiscount->value());
+        $orderAmount = $createOrderInputDto->quantity * $event->ticketPrice->value();
+        $discountCouponAmount = 0;
+
+        if ($createOrderInputDto->discountCoupon !== null) {
+            $discountCoupon = new DiscountCoupon($createOrderInputDto->discountCoupon);
+
+            $discountCouponAmount = $orderAmount * $this->discountCouponRepository->getDiscountPercent($discountCoupon);
+        }
+
+        $orderDiscount = new Money($discountCouponAmount);
+        $totalOrderAmount = new Money($orderAmount - $orderDiscount->value());
 
         $order = new Order(
             null,

@@ -16,6 +16,7 @@ class CreateOrderRequest extends FormRequest
             'card_holder_name' => ['string', 'required'],
             'card_expiration_date' => ['string', 'required'],
             'card_cvv' => ['string', 'required'],
+            'discount_coupon' => ['string', 'nullable'],
         ];
     }
 
@@ -28,6 +29,7 @@ class CreateOrderRequest extends FormRequest
             $this->input('card_holder_name'),
             $this->input('card_expiration_date'),
             $this->input('card_cvv'),
+            $this->input('discount_coupon'),
         );
     }
 }

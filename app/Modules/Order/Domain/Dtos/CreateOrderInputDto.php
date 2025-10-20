@@ -11,5 +11,6 @@ readonly class CreateOrderInputDto
         public string $cardHolderName,
         public string $cardExpirationDate,
         public string $cardCvv,
+        public ?string $discountCoupon = null,
     ) {}
 }

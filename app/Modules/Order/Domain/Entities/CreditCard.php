@@ -38,14 +38,14 @@ readonly class CreditCard
 
     private function validateExpirationDate(): void
     {
-        if (!preg_match('/^(0[1-9]|1[0-2])\/\d{2}$/', $this->expirationDate)) {
+        if (! preg_match('/^(0[1-9]|1[0-2])\/\d{2}$/', $this->expirationDate)) {
             throw new ValidationException(['card_expiration_date' => 'A data de validade deve estar no formato MM/YY.']);
         }
 
         [$month, $year] = explode('/', $this->expirationDate);
 
         $cardMonth = (int) $month;
-        $cardYear = (int) ('20' . $year);
+        $cardYear = (int) ('20'.$year);
 
         $currentMonth = (int) date('m');
         $currentYear = (int) date('Y');

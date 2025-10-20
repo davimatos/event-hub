@@ -31,4 +31,3 @@ readonly class GetOrderByIdUseCase
         return OrderOutputDto::fromEntity($order);
     }
 }
-

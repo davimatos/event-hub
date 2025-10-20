@@ -37,7 +37,7 @@ class OrderMapper
 
     public static function toEntityCollection(Collection $orderModels): array
     {
-        return $orderModels->map(fn(OrderModel $orderModel) => self::toEntity($orderModel))->toArray();
+        return $orderModels->map(fn (OrderModel $orderModel) => self::toEntity($orderModel))->toArray();
     }
 
     public static function toPersistence(Order $order): array
