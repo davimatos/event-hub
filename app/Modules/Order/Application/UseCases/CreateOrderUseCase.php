@@ -75,13 +75,16 @@ readonly class CreateOrderUseCase
             OrderStatus::CONFIRMED
         );
 
-        $isPaymentAuthorized = $this->paymentProcessor->process($order);
-
-        if ($isPaymentAuthorized === false) {
-            throw new OrderPaymentFailException;
-        }
-
         $this->transactionManager->run(function () use ($order, &$newOrder) {
+
+            $this->eventRepository->getRemainingTickets($order->event->id);
+
+            $isPaymentAuthorized = $this->paymentProcessor->process($order);
+
+            if ($isPaymentAuthorized === false) {
+                throw new OrderPaymentFailException;
+            }
+
             $newOrder = $this->orderRepository->create($order);
 
             $this->eventRepository->decrementRemainingTickets($order->event->id, $order->quantity);
