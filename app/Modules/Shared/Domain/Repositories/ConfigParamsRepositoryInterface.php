@@ -4,11 +4,11 @@ namespace App\Modules\Shared\Domain\Repositories;
 
 interface ConfigParamsRepositoryInterface
 {
-    public static function rateLimitPerMinute(): int;
+    public function rateLimitPerMinute(): int;
 
-    public static function authTokenLifetimeInMinutes(): int;
+    public function authTokenLifetimeInMinutes(): int;
 
-    public static function maxTicketsPerOrder(): int;
+    public function maxTicketsPerOrder(): int;
 
-    public static function maxTicketsPerEvent(): int;
+    public function maxTicketsPerEvent(): int;
 }
