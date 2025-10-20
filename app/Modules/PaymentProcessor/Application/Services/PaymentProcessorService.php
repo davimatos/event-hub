@@ -12,8 +12,6 @@ readonly class PaymentProcessorService implements PaymentProcessorServiceInterfa
 {
     const MAX_RETRIES = 3;
 
-    const RETRY_DELAY_SECONDS = 2;
-
     public function __construct(
         private PaymentGatewayServiceInterface $paymentGatewayService,
         private LogAdapterInterface $logAdapter
@@ -34,8 +32,6 @@ readonly class PaymentProcessorService implements PaymentProcessorServiceInterfa
                     ['attempt' => $attempt, 'order' => $order]
                 );
             }
-
-            sleep(self::RETRY_DELAY_SECONDS);
         }
 
         return false;
