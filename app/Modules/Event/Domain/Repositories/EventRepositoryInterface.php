@@ -12,5 +12,7 @@ interface EventRepositoryInterface
 
     public function getAll(): array;
 
+    public function getRemainingTickets(string $eventId): int;
+
     public function decrementRemainingTickets(string $eventId, int $quantity): void;
 }
