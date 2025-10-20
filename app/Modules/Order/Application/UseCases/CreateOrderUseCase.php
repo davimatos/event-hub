@@ -40,42 +40,16 @@ readonly class CreateOrderUseCase
     {
         $authUser = $this->authenticator->getAuthUser();
 
-        if ($createOrderInputDto->quantity > $this->configParams->maxTicketsPerOrder()) {
-            throw new TicketsPerOrderLimitExceededException;
-        }
+        $this->validateTicketsPerOrderLimit($createOrderInputDto->quantity);
 
-        $event = $this->eventRepository->getById($createOrderInputDto->eventId);
+        $event = $this->validateEventExists($createOrderInputDto->eventId);
 
-        if ($event === null) {
-            throw new ResourceNotFoundException(['event_id' => 'Evento não encontrado.']);
-        }
+        $this->validateEventAvailability($event, $createOrderInputDto->quantity);
 
-        if ($event->hasSoldOut() === true) {
-            throw new EventCapacityExceededException;
-        }
+        $this->validateParticipantTicketLimit($event->id, $authUser->id, $createOrderInputDto->quantity);
 
-        if ($event->hasAvailableTickets($createOrderInputDto->quantity) === false) {
-            throw new TicketsPerEventLimitExceededException("A quantidade informada excede a quantidade de tickets disponíveis para o evento. Restam {$event->remainingTickets} tickets disponíveis.");
-        }
-
-        $countSoldTicketsByParticipant = $this->orderRepository->getCountSoldTicketsByParticipant($event->id, $authUser->id);
-        $remainingTicketsPerParticipant = $this->configParams->maxTicketsPerEvent() - $countSoldTicketsByParticipant;
-
-        if ($createOrderInputDto->quantity > $remainingTicketsPerParticipant) {
-            throw new TicketsPerEventLimitExceededException("A quantidade informada excede o seu limite de tickets para esse evento. Restam {$remainingTicketsPerParticipant} tickets disponíveis.");
-        }
-
-        $orderAmount = $createOrderInputDto->quantity * $event->ticketPrice->value();
-        $discountCouponAmount = 0;
-
-        if ($createOrderInputDto->discountCoupon !== null) {
-            $discountCoupon = new DiscountCoupon($createOrderInputDto->discountCoupon);
-
-            $discountCouponAmount = $orderAmount * $this->discountCouponRepository->getDiscountPercent($discountCoupon);
-        }
-
-        $orderDiscount = new Money($discountCouponAmount);
-        $totalOrderAmount = new Money($orderAmount - $orderDiscount->value());
+        $orderDiscount = $this->calculateDiscount($createOrderInputDto, $event);
+        $totalOrderAmount = $this->calculateTotalAmount($createOrderInputDto->quantity, $event, $orderDiscount);
 
         $order = new Order(
             null,
@@ -95,6 +69,8 @@ readonly class CreateOrderUseCase
             $createOrderInputDto->cardCvv,
         );
 
+        $newOrder = null;
+
         $this->transactionManager->run(function () use ($order, $creditCard, &$newOrder) {
 
             $this->eventRepository->getRemainingTickets($order->event->id);
@@ -113,6 +89,65 @@ readonly class CreateOrderUseCase
         $this->newOrderNotification->execute($newOrder);
 
         return OrderOutputDto::fromEntity($newOrder);
+    }
 
+    private function validateTicketsPerOrderLimit(int $quantity): void
+    {
+        if ($quantity > $this->configParams->maxTicketsPerOrder()) {
+            throw new TicketsPerOrderLimitExceededException;
+        }
+    }
+
+    private function validateEventExists(string $eventId): object
+    {
+        $event = $this->eventRepository->getById($eventId);
+
+        if ($event === null) {
+            throw new ResourceNotFoundException(['event_id' => 'Evento não encontrado.']);
+        }
+
+        return $event;
+    }
+
+    private function validateEventAvailability(object $event, int $quantity): void
+    {
+        if ($event->hasSoldOut() === true) {
+            throw new EventCapacityExceededException;
+        }
+
+        if ($event->hasAvailableTickets($quantity) === false) {
+            throw new TicketsPerEventLimitExceededException("A quantidade informada excede a quantidade de tickets disponíveis para o evento. Restam {$event->remainingTickets} tickets disponíveis.");
+        }
+    }
+
+    private function validateParticipantTicketLimit(string $eventId, string $userId, int $quantity): void
+    {
+        $countSoldTicketsByParticipant = $this->orderRepository->getCountSoldTicketsByParticipant($eventId, $userId);
+        $remainingTicketsPerParticipant = $this->configParams->maxTicketsPerEvent() - $countSoldTicketsByParticipant;
+
+        if ($quantity > $remainingTicketsPerParticipant) {
+            throw new TicketsPerEventLimitExceededException("A quantidade informada excede o seu limite de tickets para esse evento. Restam {$remainingTicketsPerParticipant} tickets disponíveis.");
+        }
+    }
+
+    private function calculateDiscount(CreateOrderInputDto $createOrderInputDto, object $event): Money
+    {
+        $orderAmount = $createOrderInputDto->quantity * $event->ticketPrice->value();
+        $discountCouponAmount = 0;
+
+        if ($createOrderInputDto->discountCoupon !== null) {
+            $discountCoupon = new DiscountCoupon($createOrderInputDto->discountCoupon);
+
+            $discountCouponAmount = $orderAmount * $this->discountCouponRepository->getDiscountPercent($discountCoupon);
+        }
+
+        return new Money($discountCouponAmount);
+    }
+
+    private function calculateTotalAmount(int $quantity, object $event, Money $orderDiscount): Money
+    {
+        $orderAmount = $quantity * $event->ticketPrice->value();
+
+        return new Money($orderAmount - $orderDiscount->value());
     }
 }

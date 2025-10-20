@@ -19,23 +19,31 @@ readonly class LoginUseCase
 
     public function execute(LoginInputDto $loginInputDto): LoginOutputDto
     {
-        $authUser = $this->userRepository->getByEmail($loginInputDto->email);
+        $authUser = $this->validateUserExists($loginInputDto->email);
+        $this->validateCredentials($authUser->email, $loginInputDto->password);
+
+        $authToken = $this->authenticator->generateToken();
+
+        return new LoginOutputDto($authToken, 'Bearer', $this->configParams->authTokenLifetimeInMinutes());
+    }
+
+    private function validateUserExists(string $email): object
+    {
+        $authUser = $this->userRepository->getByEmail($email);
 
         if ($authUser === null) {
             throw new InvalidCredentialsException;
         }
 
-        $isValidCredentials = $this->authenticator->checkCredentials(
-            $authUser->email,
-            $loginInputDto->password
-        );
+        return $authUser;
+    }
+
+    private function validateCredentials(string $email, string $password): void
+    {
+        $isValidCredentials = $this->authenticator->checkCredentials($email, $password);
 
         if ($isValidCredentials === false) {
             throw new InvalidCredentialsException;
         }
-
-        $authToken = $this->authenticator->generateToken();
-
-        return new LoginOutputDto($authToken, 'Bearer', $this->configParams->authTokenLifetimeInMinutes());
     }
 }

@@ -22,18 +22,12 @@ readonly class CreateUserUseCase
 
     public function execute(CreateUserInputDto $createUserInputDto): UserOutputDto
     {
-        if ($this->userRepository->getByEmail($createUserInputDto->email) !== null) {
-            throw new EmailAlreadyExistsException;
-        }
+        $this->validateEmailNotExists($createUserInputDto->email);
 
         $authUser = $this->authenticator->getAuthUser();
-        $typeToCreate = $createUserInputDto->type ? UserType::from($createUserInputDto->type) : UserType::PARTICIPANT;
+        $typeToCreate = $this->determineToCreateUserType($createUserInputDto->type, $authUser);
 
-        if ($authUser === null) {
-            $typeToCreate = UserType::PARTICIPANT;
-        } elseif ($typeToCreate === UserType::ORGANIZER && $authUser->canCreateOrganizerUser() === false) {
-            throw new UnauthorizedException;
-        }
+        $this->validateUserTypePermission($typeToCreate, $authUser);
 
         $user = new User(
             id: null,
@@ -46,5 +40,34 @@ readonly class CreateUserUseCase
         $newUser = $this->userRepository->create($user);
 
         return UserOutputDto::fromEntity($newUser);
+    }
+
+    private function validateEmailNotExists(string $email): void
+    {
+        if ($this->userRepository->getByEmail($email) !== null) {
+            throw new EmailAlreadyExistsException;
+        }
+    }
+
+    private function determineToCreateUserType(?string $type, ?object $authUser): UserType
+    {
+        $typeToCreate = $type ? UserType::from($type) : UserType::PARTICIPANT;
+
+        if ($authUser === null) {
+            return UserType::PARTICIPANT;
+        }
+
+        return $typeToCreate;
+    }
+
+    private function validateUserTypePermission(UserType $typeToCreate, ?object $authUser): void
+    {
+        if ($authUser === null) {
+            return;
+        }
+
+        if ($typeToCreate === UserType::ORGANIZER && $authUser->canCreateOrganizerUser() === false) {
+            throw new UnauthorizedException;
+        }
     }
 }
