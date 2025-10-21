@@ -22,16 +22,18 @@ docker-compose exec eventhub.api composer install
 
 # Executar comandos de inicialização
 docker-compose exec eventhub.api bash -c "php artisan key:generate && php artisan migrate && php artisan db:seed && php artisan migrate --env=testing"
+
+# Iniciar os workers para processamento de filas (Opcional)
+docker-compose exec -d eventhub.api bash -c "php artisan queue:work --queue=notifications"
 ```
 
 Após a inicialização e execução dos containers, os seguintes recursos estarão disponíveis:
 
-| Serviço | Porta | Descrição                          | Como acessar |
-|---------|-------|------------------------------------|--------------|
+| Recursos          | Porta | Descrição                          | Como acessar |
+|-------------------|-------|------------------------------------|--------------|
 | **Laravel (API)** | `80` | Aplicação principal                | http://localhost/api/v1/ |
-| **MySQL** | `3306` | Banco de dados                     | `localhost:3306` |
-| **Workers** | - | Processamento de filas | `php artisan queue:work --queue=notifications` |
-| **Documentação** | - | Swagger/OpenAPI | http://localhost/docs* |
+| **MySQL**         | `3306` | Banco de dados                     | `localhost:3306` |
+| **Documentação**  | - | Swagger/OpenAPI | http://localhost/docs* |
 
 <small>* Para gerar a documentação Swagger, execute: <code>php artisan l5-swagger:generate</code></small>
 
@@ -167,18 +169,21 @@ sequenceDiagram
   participant ER as EventRepository
   participant OR as OrderRepository
   participant PP as PaymentProcessor
-  participant TM as TransactionManager
   participant NS as NewOrderNotification
 
   C->>API: POST /api/v1/buy-ticket
   API->>UC: execute(dto)
   UC->>ER: getById(eventId)
-  UC->>ER: getRemainingTickets(eventId)
-  UC->>PP: process(order, creditCard)
+  
+  critical transaction
+    UC->>ER: getRemainingTickets(eventId)
+    UC->>OR: create(order)
+    UC->>ER: decrementRemainingTickets(eventId, qty)
+    UC->>PP: process(order, creditCard)
+    note right of PP: 3 tentativas (retries)
+  end
+  
   alt Autorizado
-    UC->>TM: run(transaction)
-    TM->>OR: create(order)
-    TM->>ER: decrementRemainingTickets(eventId, qty)
     UC->>NS: execute(newOrder)
     UC-->>API: OrderOutputDto
   else Falha pagamento
@@ -190,13 +195,8 @@ sequenceDiagram
 
 ```mermaid
 classDiagram
-  class User {
-    +id
-    +name
-    +email
-    +type (PARTICIPANT|ORGANIZER)
-  }
-
+  direction LR
+  
   class Event {
     +id
     +organizer_id (User)
@@ -206,6 +206,13 @@ classDiagram
     +ticket_price
     +capacity
     +remaining_tickets
+  }
+
+  class User {
+    +id
+    +name
+    +email
+    +type (PARTICIPANT|ORGANIZER)
   }
 
   class Order {
@@ -227,10 +234,12 @@ classDiagram
     +used_at
   }
 
-  Event <.. User : organizer_id
-  Order <.. Event : reference (event_id)
-  Order <.. User : participant_id
-  Order "1" o-- "many" Ticket
+  User <|.. Event : organizer_id
+  Event <|.. Order : event_id
+  User <|.. Order : participant_id
+  Order "1" *-- "many" Ticket : compõe
+  Event <.. Ticket : event_id
+  User <.. Ticket : participant_id
 ```
 
 Notas:
