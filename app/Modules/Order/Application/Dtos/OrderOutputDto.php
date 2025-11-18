@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Order\Domain\Dtos;
+namespace App\Modules\Order\Application\Dtos;
 
 use App\Modules\Order\Domain\Entities\Order;
 

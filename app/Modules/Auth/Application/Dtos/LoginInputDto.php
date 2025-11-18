@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Auth\Domain\Dtos;
+namespace App\Modules\Auth\Application\Dtos;
 
 readonly class LoginInputDto
 {

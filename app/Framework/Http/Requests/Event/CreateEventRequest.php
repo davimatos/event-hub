@@ -2,7 +2,7 @@
 
 namespace App\Framework\Http\Requests\Event;
 
-use App\Modules\Event\Domain\Dtos\CreateEventInputDto;
+use App\Modules\Event\Application\Dtos\CreateEventInputDto;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateEventRequest extends FormRequest

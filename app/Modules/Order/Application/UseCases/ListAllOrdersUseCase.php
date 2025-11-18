@@ -2,10 +2,10 @@
 
 namespace App\Modules\Order\Application\UseCases;
 
-use App\Modules\Order\Domain\Dtos\OrderOutputDto;
+use App\Modules\Order\Application\Dtos\OrderOutputDto;
 use App\Modules\Order\Domain\Repositories\OrderRepositoryInterface;
+use App\Modules\Shared\Application\Dtos\CollectionOutputDto;
 use App\Modules\Shared\Domain\Adapters\AuthenticatorAdapterInterface;
-use App\Modules\Shared\Domain\Dtos\CollectionOutputDto;
 
 readonly class ListAllOrdersUseCase
 {

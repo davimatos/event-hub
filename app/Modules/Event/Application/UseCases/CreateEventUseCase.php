@@ -2,8 +2,8 @@
 
 namespace App\Modules\Event\Application\UseCases;
 
-use App\Modules\Event\Domain\Dtos\CreateEventInputDto;
-use App\Modules\Event\Domain\Dtos\EventOutputDto;
+use App\Modules\Event\Application\Dtos\CreateEventInputDto;
+use App\Modules\Event\Application\Dtos\EventOutputDto;
 use App\Modules\Event\Domain\Entities\Event;
 use App\Modules\Event\Domain\Repositories\EventRepositoryInterface;
 use App\Modules\Shared\Application\Exceptions\UnauthorizedException;

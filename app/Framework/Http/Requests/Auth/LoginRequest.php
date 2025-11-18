@@ -2,7 +2,7 @@
 
 namespace App\Framework\Http\Requests\Auth;
 
-use App\Modules\Auth\Domain\Dtos\LoginInputDto;
+use App\Modules\Auth\Application\Dtos\LoginInputDto;
 use Illuminate\Foundation\Http\FormRequest;
 
 class LoginRequest extends FormRequest

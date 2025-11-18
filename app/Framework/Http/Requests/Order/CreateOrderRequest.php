@@ -2,7 +2,7 @@
 
 namespace App\Framework\Http\Requests\Order;
 
-use App\Modules\Order\Domain\Dtos\CreateOrderInputDto;
+use App\Modules\Order\Application\Dtos\CreateOrderInputDto;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateOrderRequest extends FormRequest

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Shared\Domain\Dtos;
+namespace App\Modules\Shared\Application\Dtos;
 
 readonly class CollectionOutputDto
 {

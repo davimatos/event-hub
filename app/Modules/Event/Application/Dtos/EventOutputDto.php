@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Modules\Event\Domain\Dtos;
+namespace App\Modules\Event\Application\Dtos;
 
 use App\Modules\Event\Domain\Entities\Event;
-use App\Modules\User\Domain\Dtos\UserOutputDto;
+use App\Modules\User\Application\Dtos\UserOutputDto;
 
 readonly class EventOutputDto
 {

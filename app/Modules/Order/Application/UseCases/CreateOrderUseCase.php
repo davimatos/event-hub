@@ -4,12 +4,12 @@ namespace App\Modules\Order\Application\UseCases;
 
 use App\Modules\Event\Application\Exceptions\EventCapacityExceededException;
 use App\Modules\Event\Domain\Repositories\EventRepositoryInterface;
+use App\Modules\Order\Application\Dtos\CreateOrderInputDto;
+use App\Modules\Order\Application\Dtos\OrderOutputDto;
 use App\Modules\Order\Application\Exceptions\OrderPaymentFailException;
 use App\Modules\Order\Application\Exceptions\TicketsPerEventLimitExceededException;
 use App\Modules\Order\Application\Exceptions\TicketsPerOrderLimitExceededException;
 use App\Modules\Order\Application\Services\NewOrderNotificationServiceInterface;
-use App\Modules\Order\Domain\Dtos\CreateOrderInputDto;
-use App\Modules\Order\Domain\Dtos\OrderOutputDto;
 use App\Modules\Order\Domain\Entities\CreditCard;
 use App\Modules\Order\Domain\Entities\DiscountCoupon;
 use App\Modules\Order\Domain\Entities\Order;

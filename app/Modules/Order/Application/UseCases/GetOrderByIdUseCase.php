@@ -2,7 +2,7 @@
 
 namespace App\Modules\Order\Application\UseCases;
 
-use App\Modules\Order\Domain\Dtos\OrderOutputDto;
+use App\Modules\Order\Application\Dtos\OrderOutputDto;
 use App\Modules\Order\Domain\Repositories\OrderRepositoryInterface;
 use App\Modules\Shared\Application\Exceptions\ResourceNotFoundException;
 use App\Modules\Shared\Domain\Adapters\AuthenticatorAdapterInterface;

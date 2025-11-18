@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\Auth\Application\UseCases;
 
+use App\Modules\Auth\Application\Dtos\LoginInputDto;
+use App\Modules\Auth\Application\Dtos\LoginOutputDto;
 use App\Modules\Auth\Application\Exceptions\InvalidCredentialsException;
 use App\Modules\Auth\Application\UseCases\LoginUseCase;
-use App\Modules\Auth\Domain\Dtos\LoginInputDto;
-use App\Modules\Auth\Domain\Dtos\LoginOutputDto;
 use App\Modules\Shared\Domain\Adapters\AuthenticatorAdapterInterface;
 use App\Modules\Shared\Domain\Repositories\ConfigParamsRepositoryInterface;
 use App\Modules\User\Domain\Entities\User;

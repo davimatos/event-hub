@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\User\Domain\Dtos;
+namespace App\Modules\User\Application\Dtos;
 
 use App\Modules\User\Domain\Entities\User;
 

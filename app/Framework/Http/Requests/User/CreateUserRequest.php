@@ -2,7 +2,7 @@
 
 namespace App\Framework\Http\Requests\User;
 
-use App\Modules\User\Domain\Dtos\CreateUserInputDto;
+use App\Modules\User\Application\Dtos\CreateUserInputDto;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateUserRequest extends FormRequest

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Event\Domain\Dtos;
+namespace App\Modules\Event\Application\Dtos;
 
 readonly class CreateEventInputDto
 {
