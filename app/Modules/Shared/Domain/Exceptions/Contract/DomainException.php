@@ -2,9 +2,9 @@
 
 namespace App\Modules\Shared\Domain\Exceptions\Contract;
 
-use Exception;
+use App\Modules\Shared\Infra\Exceptions\Contract\JsonReportException;
 
-abstract class DomainException extends Exception
+abstract class DomainException extends JsonReportException
 {
     public function __construct(
         protected $message = '',

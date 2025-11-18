@@ -2,7 +2,7 @@
 
 use App\Modules\Shared\Application\Exceptions\Contract\ApplicationException;
 use App\Modules\Shared\Domain\Exceptions\Contract\DomainException;
-use App\Modules\Shared\Infra\Exceptions\Contract\InfrastructureException;
+use App\Modules\Shared\Infra\Exceptions\Contract\JsonReportException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -39,7 +39,7 @@ return Application::configure(basePath: dirname(__DIR__))
             ApplicationException::class,
         ]);
 
-        $exceptions->renderable(function (DomainException|ApplicationException|InfrastructureException $e) {
+        $exceptions->renderable(function (JsonReportException $e) {
             return response()->json([
                 'message' => $e->getMessage(),
                 ...$e->getContext() ? ['errors' => $e->getContext()] : [],
