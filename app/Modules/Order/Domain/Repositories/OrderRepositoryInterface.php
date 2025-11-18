@@ -3,6 +3,7 @@
 namespace App\Modules\Order\Domain\Repositories;
 
 use App\Modules\Order\Domain\Entities\Order;
+use App\Modules\Order\Domain\Enums\OrderStatus;
 
 interface OrderRepositoryInterface
 {
@@ -15,4 +16,6 @@ interface OrderRepositoryInterface
     public function getAllByOrganizerOrParticipant(string $id): array;
 
     public function getCountSoldTicketsByParticipant(string $eventId, string $participantId): int;
+
+    public function changeStatus(string $id, OrderStatus $status): ?Order;
 }

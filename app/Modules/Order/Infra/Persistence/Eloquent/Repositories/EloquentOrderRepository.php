@@ -66,4 +66,18 @@ class EloquentOrderRepository implements OrderRepositoryInterface
 
         return (int) $soldTicketsCount;
     }
+
+    public function changeStatus(string $id, OrderStatus $status): ?Order
+    {
+        $orderModel = OrderModel::find($id);
+
+        if ($orderModel === null) {
+            return null;
+        }
+
+        $orderModel->status = $status->value;
+        $orderModel->save();
+
+        return OrderMapper::toEntity($orderModel);
+    }
 }

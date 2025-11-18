@@ -51,17 +51,6 @@ readonly class CreateOrderUseCase
         $orderDiscount = $this->calculateDiscount($createOrderInputDto, $event);
         $totalOrderAmount = $this->calculateTotalAmount($createOrderInputDto->quantity, $event, $orderDiscount);
 
-        $order = new Order(
-            null,
-            $event,
-            $authUser,
-            $createOrderInputDto->quantity,
-            new Money($event->ticketPrice->value()),
-            $orderDiscount,
-            $totalOrderAmount,
-            OrderStatus::CONFIRMED
-        );
-
         $creditCard = new CreditCard(
             $createOrderInputDto->cardNumber,
             $createOrderInputDto->cardHolderName,
@@ -69,9 +58,33 @@ readonly class CreateOrderUseCase
             $createOrderInputDto->cardCvv,
         );
 
-        $newOrder = null;
+        $order = $this->orderRepository->create(new Order(
+            null,
+            $event,
+            $authUser,
+            $createOrderInputDto->quantity,
+            new Money($event->ticketPrice->value()),
+            $orderDiscount,
+            $totalOrderAmount,
+            OrderStatus::PENDING
+        ));
 
-        $this->transactionManager->run(function () use ($order, $creditCard, &$newOrder) {
+        try {
+            $processedOrder = $this->processPayment($order, $creditCard);
+        } catch (\Exception $e) {
+            $this->orderRepository->changeStatus($order->id, OrderStatus::CANCELED);
+
+            throw $e;
+        }
+
+        $this->newOrderNotification->execute($processedOrder);
+
+        return OrderOutputDto::fromEntity($processedOrder);
+    }
+
+    private function processPayment(Order $order, CreditCard $creditCard): Order
+    {
+        $this->transactionManager->run(function () use (&$order, $creditCard) {
 
             $this->eventRepository->getRemainingTickets($order->event->id);
 
@@ -81,14 +94,12 @@ readonly class CreateOrderUseCase
                 throw new OrderPaymentFailException;
             }
 
-            $newOrder = $this->orderRepository->create($order);
+            $order = $this->orderRepository->changeStatus($order->id, OrderStatus::CONFIRMED);
 
             $this->eventRepository->decrementRemainingTickets($order->event->id, $order->quantity);
         });
 
-        $this->newOrderNotification->execute($newOrder);
-
-        return OrderOutputDto::fromEntity($newOrder);
+        return $order;
     }
 
     private function validateTicketsPerOrderLimit(int $quantity): void
